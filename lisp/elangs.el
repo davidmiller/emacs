@@ -440,7 +440,12 @@ test-case-mode
 ;; Include the following only if you want to run
 ;; bash as your shell.
 
+;; Clojure
+(add-load-dir "~/emacs/elpa/")
+
 (require 'clojure-mode)
+(font-lock-add-keywords 'clojure-mode
+  '(("true" . font-lock-builtin-face)))
 
 ;; C#
 (require 'csharp-mode)

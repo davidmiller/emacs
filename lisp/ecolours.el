@@ -34,7 +34,7 @@
       (whitespace-trailing ((t (:background "#a52a2a"))))
       (whitespace-line ((t (:background "gray10"))))
       (whitespace-newline ((t (:foreground "#454545"))))
-      (whitespace-indentation ((t (:background "#8b7848"))))
+      (whitespace-indentation ((t (:background "#121212"))))
       (whitespace-space-after-tab ((t (:background "#0f0"))))
       (whitespace-tab ((t (:background "#0f0f0f"))))
      (whitespace-empty ((t (:background "#0f0f0f"))))
