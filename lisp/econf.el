@@ -1,6 +1,5 @@
-;; Initialization successful, welcome to GNU Emacs 23.3.2.
-;; Loaded with .emacs enabled
 
+;; Module level dependencies
 (require 'delsel)
 
 ;;; Initialization
@@ -69,7 +68,7 @@
 ;;                            ac-source-yasnippet
 ;;                            ac-source-filename
 ;;                            ac-source-files-in-current-dir))
-(add-to-list 'ac-dictionary-directories "~/emacs/auto-complete/dict")
+(add-to-list 'ac-dictionary-directories (sitedir "/auto-complete/dict"))
 
 (ac-config-default)
 (add-to-list 'ac-modes 'erlang-mode)
@@ -93,7 +92,7 @@
 (setq ac-quick-help-delay 1)
 (require 'yasnippet)
 (yas/initialize)
-(yas/load-directory "~/emacs/yasnippet/snippets/text-mode")
+(yas/load-directory (sitedir "/yasnippet/snippets/text-mode"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;  Buffer Management ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -160,12 +159,10 @@
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
 ;; Version Control
-(add-to-list 'load-path "/home/david/emacs/dvc/")
 (require 'dvc-autoloads)
 (setq dvc-tips-enabled nil)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Jabber client ;;;;;;;;;;;;;;;;;;;;;;;
-(add-to-list 'load-path "~/emacs/emacs-jabber-0.8.0")
 (load "jabber-autoloads")
 (setq jabber-account-list
       '(("david@deadpansincerity.com"
@@ -195,9 +192,11 @@
 
 (require 'smart-operator)
 (setq smart-operator-double-space-docs nil)
-(load-file "~/emacs/cedet/common/cedet.el")
 
-;; ;; Use CEDET projects
+;; Use CEDET projects
+(condition-case nil
+    (load-file (sitedir "/cedet/common/cedet.el"))
+  (error nil))
 ;; (global-ede-mode t)
 ;; (semantic-load-enable-excessive-code-helpers)
 ;; (require 'semantic-ia)
@@ -216,7 +215,6 @@
 (eval-after-load "whitespace" '(diminish 'rainbow-mode))
 ;; Dictionary
 (load "dictionary-init")
-
 
 
 
@@ -310,11 +308,11 @@
 
 (when
     (load
-     (expand-file-name "~/emacs/elpa/package.el"))
-  (setq package-user-dir (expand-file-name "~/emacs/elpa"))
+     (expand-file-name (emacsdir "/elpa/package.el")))
+  (setq package-user-dir (expand-file-name (emacsdir "/elpa")))
   (add-to-list 'package-archives
                '("marmalade" . "http://marmalade-repo.org/packages/"))
   (package-initialize))
-(setq package-user-dir (expand-file-name "~/emacs/elpa"))
+(setq package-user-dir (expand-file-name (emacsdir "/elpa")))
 
 (provide 'econf)
