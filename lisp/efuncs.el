@@ -2,34 +2,29 @@
 
 (defmacro dotfile (filename)
   "Define the function `filename' to edit the dotfile in question"
-  `(progn
-     (defun ,(intern filename)
-       ,@(concat "Open " (symbol-name filename) " for editing")
-       (interactive)
-       (find-file ,(concat "~/" (symbol-name filename))))))
+  (let ((filestr (symbol-name filename)))
+    `(progn
+       (defun ,(intern filestr) ()
+         ,(format "Open %s for editing" filestr)
+         (interactive)
+         (find-file ,(concat "~/" filestr))))))
 
-;(dotfile '.bashrc)
-
-;; Reload this file
+(dotfile .emacs)
 (defun x-reload-dot-emacs()
   (interactive)
   (load-file "~/.emacs"))
-(defun .emacs()
-  (interactive)
-  (find-file "~/.emacs"))
-
-(defun .bashrc ()
-  (interactive)
-  (find-file "~/.bashrc"))
 
 (global-set-key "\C-c\C-r" 'x-reload-dot-emacs)
 (global-set-key "\C-c\C-e" '.emacs)
+
+(dotfile .bashrc)
+(dotfile .hgrc)
+(dotfile .conkyrc)
 
 (defun reload-gnus()
   (interactive)
   (load-file "~/.gnus"))
 (global-set-key "\C-cGR" 'reload-gnus)
-
 
 (defun rename-current-file-or-buffer ()
   (interactive)
