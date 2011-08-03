@@ -1,15 +1,16 @@
 ;; Custom
 
-(defmacro dotfile (filename)
+(defmacro dotfile (filename &optional path)
   "Define the function `filename' to edit the dotfile in question"
   (let ((filestr (symbol-name filename)))
     `(progn
        (defun ,(intern filestr) ()
          ,(format "Open %s for editing" filestr)
          (interactive)
-         (find-file ,(concat "~/" filestr))))))
+         (find-file ,(if path path (concat "~/" filestr)))))))
 
 (dotfile .emacs)
+
 (defun x-reload-dot-emacs()
   (interactive)
   (load-file "~/.emacs"))
@@ -20,6 +21,7 @@
 (dotfile .bashrc)
 (dotfile .hgrc)
 (dotfile .conkyrc)
+(dotfile .ssh "~/.ssh/config")
 
 (defun reload-gnus()
   (interactive)
