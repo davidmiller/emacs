@@ -68,7 +68,7 @@
 ;;                            ac-source-yasnippet
 ;;                            ac-source-filename
 ;;                            ac-source-files-in-current-dir))
-(add-to-list 'ac-dictionary-directories (sitedir "/auto-complete/dict"))
+(add-to-list 'ac-dictionary-directories (sitedir "auto-complete/dict"))
 
 (ac-config-default)
 (add-to-list 'ac-modes 'erlang-mode)
@@ -92,7 +92,7 @@
 (setq ac-quick-help-delay 1)
 (require 'yasnippet)
 (yas/initialize)
-(yas/load-directory (sitedir "/yasnippet/snippets/text-mode"))
+(yas/load-directory (sitedir "yasnippet/snippets/text-mode"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;  Buffer Management ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -195,7 +195,7 @@
 
 ;; Use CEDET projects
 (condition-case nil
-    (load-file (sitedir "/cedet/common/cedet.el"))
+    (load-file (sitedir "cedet/common/cedet.el"))
   (error nil))
 ;; (global-ede-mode t)
 ;; (semantic-load-enable-excessive-code-helpers)
@@ -308,7 +308,7 @@
 
 (when
     (load
-     (expand-file-name (emacsdir "/elpa/package.el")))
+     (expand-file-name (emacsdir "elpa/package.el")))
   (setq package-user-dir (expand-file-name (emacsdir "/elpa")))
   (add-to-list 'package-archives
                '("marmalade" . "http://marmalade-repo.org/packages/"))
