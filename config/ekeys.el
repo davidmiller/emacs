@@ -1,10 +1,35 @@
-;; Keybindings
+;;
+;; ekeys.el - Keybindings for Emacs
+;;
+;; Commentary:
+;;
+;; This file contains all the custom keybindings we want,
+;; as well as some macros to make doing that at any length
+;; somewhat more pleasant.
+;;
+
+;; Code begins
 
 (defmacro gset-key (pairs)
   "Globally set `pairs' as (binding symbol)"
   (let ((bindings (mapcar (lambda (b) (cons 'global-set-key b)) pairs)))
   `(progn ,@bindings)
   ))
+
+
+;; (defmacro invert-keys (pairs)
+;;   "For each binding pair in `pairs', swap the function they are bound to."
+;;   (let* ((funs (mapcar (lambda (x) (mapcar #'key-binding x)) pairs))
+;;          (swapped (map 'list (lambda (p f)
+;;                                (list
+;;                                 (list 'global-set-key (first p) (quote(inserter (last p)(last f))))
+;;                                 (list 'global-set-key (last p) (quote (inserter (last p)(first f))))))
+;;                        pairs funs)))
+;;     `(progn ,@swapped)))
+
+;;
+;; Definitions
+;;
 
 (gset-key (
        ;; Buffer management
@@ -20,6 +45,7 @@
        ((kbd "S-C-<right>") 'enlarge-window-horizontally)
        ((kbd "S-C-<down>") 'shrink-window)
        ((kbd "S-C-<up>") 'enlarge-window)
+       ("\C-cR" 'rename-current-file-or-buffer)
 
        ;; Version Control
        ("\C-c\h\p" 'xhg-push)
@@ -44,38 +70,36 @@
        ("\C-w" 'backward-kill-word)
        ("\C-x\C-k" 'kill-region)
        ("\C-c\C-k" 'kill-region)
+       ((kbd "C-M-S-j")
+        #'(lambda () (interactive) (previous-line) (move-end-of-line nil) (newline-and-indent)))
+       ((kbd "C-M-j")
+        #'(lambda () (interactive) (move-end-of-line nil) (newline-and-indent)))
 
        ;; Save excursion inserts
        ((kbd "C-M-;") 'colonize)
        ((kbd "C-M-,") 'commatize)
-
        ("\M-#" 'find-tag-other-window)
        ("\C-cfp" 'flyspell-prog-mode)
+
+       ;; Viewport
+       ([f11] 'toggle-fullscreen)
+
+       ;; Comms
+       ("\C-cef" 'erc-freenode)
+       ("\C-cff" 'browse-url)
+
+       ;; Lisp
+       ("\C-c\m" 'pp-macroexpand-last-sexp)
 
        ))
 
 (define-key global-map "\C-c\C-y" 'clipboard-yank); clipboard paste
 (define-key global-map "\C-ccx" 'clipboard-kill-region); clipboard paste
 
-(setq dvc-tips-enabled nil)
+;;
+;; Extended Keymap Munging
+;;
 
-
-
-
-
-
-
-;; Completions - let's get one set of keybindings regardless of context
-(global-set-key [\C-\;] 'yas/next-field)
-(global-set-key [\C\'] 'yas/expand)
-
-
-(global-set-key "\C-cR" 'rename-current-file-or-buffer)
-
-;; Lisp
-(global-set-key "\C-c\m" 'pp-macroexpand-last-sexp)
-
-(global-set-key (kbd "C-M-S-j") #'(lambda () (interactive) (previous-line) (move-end-of-line nil) (newline-and-indent)))
-(global-set-key (kbd "C-M-j") #'(lambda () (interactive) (move-end-of-line nil) (newline-and-indent)))
+;; Code ends.
 
 (provide 'ekeys)

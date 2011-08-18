@@ -63,3 +63,4 @@
                 text)))
       (w3m-goto-url
        (replace-regexp-in-string __braplast url text) new-window))))
+(provide 'browse-apropos)

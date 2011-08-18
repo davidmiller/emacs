@@ -1,28 +1,36 @@
+;;
+;; econf.el - Emacs Configuration
+;;
+;; Commentary:
+;;
+;; This file is the root configuration package for My Emacs setup.
+;; After establishing a few generic libraries that should be available
+;; to all configuration modules, it proceeds to require each individual
+;; configuration.
+;;
+;; The process of factoring this out into logical packages is ongoing.
+;;
 
+;; Code begins
+
+;;
 ;; Module level dependencies
+;;
 (require 'delsel)
 
-;;; Initialization
-(setq inhibit-startup-message t) ;; No more welcome for me
-;; Make stuff wander about
-(defconst animate-n-steps 10)
-(defun emacs-reloaded ()
-  (switch-to-buffer "*scratch*")
-  (animate-string (concat ";; Initialization successful, welcome to "
-                          (substring (emacs-version) 0 16)
-                          ". \n;; Loaded with .emacs enabled")
-                  0 0)
-  (newline-and-indent)  (newline-and-indent))
-(add-hook 'after-init-hook 'emacs-reloaded)
+;;
+;; Sub-configuration packages
+;;
+(require-many
+ 'ecomms      ;; Communications with the outside world - IM/IRC/Twitter/Email
+ 'edisplay    ;; Visual display of the window
+ 'edocs       ;; Access to documentation files/resources from within Emacs
+ 'enterwebs   ;; Interacting with a World Wide Web
+ )
 
-(tool-bar-mode nil);; Remove icons from gtk menu
 (setq ring-bell-function 'ignore);; disable bell function
-(column-number-mode 1);; Enable Colum numbering
-;;(blink-cursor-mode nil) ;; Stop cursor from blinkin
-(require 'bar-cursor)
-(bar-cursor-mode t) ;; Put the cursor on a diet
 (defalias 'yes-or-no-p 'y-or-n-p) ;; less typing for me
-(display-time) ;; show it in the modeline
+
 (setq-default indent-tabs-mode nil) ;; Spaces instead of tabs
 ;; Brief aside via Georg Brandl
 ;;
@@ -36,7 +44,6 @@
 ;; Tabs are right out.
 (setq tab-width 4)
 
-;(set-face-attribute 'default nil :height 105)
 (show-paren-mode 1) ;; Highlight parenthesis pairs
 (setq transient-mark-mode t) ;; Highlight region whenever the mark is active
 (delete-selection-mode t) ;; Delete contents of region when we start typing
@@ -139,16 +146,11 @@
           (lambda ()
             (ibuffer-switch-to-saved-filter-groups "default")))
 
-(setq frame-title-format '(buffer-file-name "%f" ("%b")))
 
 (require 'ido)
 (ido-mode t)
 (setq ido-enable-flex-matching t) ;; enable fuzzy matching
 
-
-(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
-(if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-(if (fboundp 'menu-bar-mode) (menu-bar-mode 1))
 
 ;; So I'll be lowercasin'
 (put 'downcase-region 'disabled nil)
@@ -161,32 +163,7 @@
 ;; Version Control
 (require 'dvc-autoloads)
 (setq dvc-tips-enabled nil)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Jabber client ;;;;;;;;;;;;;;;;;;;;;;;
-(load "jabber-autoloads")
-(setq jabber-account-list
-      '(("david@deadpansincerity.com"
-         (:network-server . "talk.google.com")
-         (:connection-type . ssl))))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ERC ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(add-hook 'erc-mode-hook (lambda () (longlines-mode t)))
-(setq erc-hide-list '("JOIN" "PART" "QUIT"))
-(defmacro erc-connect (command server port nick)
-  "Create interactive command `command', for connecting to an IRC server. The
-      command uses interactive mode if passed an argument."
-  (fset command
-        `(lambda (arg)
-           (interactive "p")
-           (if (not (= 1 arg))
-               (call-interactively 'erc)
-             (erc :server ,server :port ,port :nick ,nick)))))
-(autoload 'erc "erc" "" t)
-(erc-connect erc-freenode "irc.freenode.net" 6667 "davidmiller")
-(global-set-key "\C-cef" 'erc-freenode)
-(setq erc-autojoin-channels-alist
-      '(("freenode.net" "#emacs" "#pony-mode" "#celery")))
- (erc-spelling-mode 1)
+(require 'monky)
 
 ;; Programming - IDE stuff
 
@@ -197,35 +174,6 @@
 (condition-case nil
     (load-file (sitedir "cedet/common/cedet.el"))
   (error nil))
-;; (global-ede-mode t)
-;; (semantic-load-enable-excessive-code-helpers)
-;; (require 'semantic-ia)
-;; (remove-hook 'python-mode-hook 'wisent-python-default-setup)
-
-;; Modeline customisations
-(require 'diminish)
-(require 'rainbow-mode)
-(eval-after-load "light-symbol" '(diminish 'light-symbol-mode))
-(eval-after-load "flymake" '(diminish 'flymake-mode "F"))
-(eval-after-load "eldoc" '(diminish 'eldoc-mode "E"))
-(eval-after-load "yasnippet" '(diminish 'yas/minor-mode "Y"))
-(eval-after-load "autopair" '(diminish 'autopair-mode))
-(eval-after-load "smart-operator" '(diminish 'smart-operator-mode))
-(eval-after-load "whitespace" '(diminish 'global-whitespace-mode))
-(eval-after-load "whitespace" '(diminish 'rainbow-mode))
-;; Dictionary
-(load "dictionary-init")
-
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;; Web browsing stuff here innit ;;;;;;;;;;;;;;;;;;
-(setq
- browse-url-browser-function 'browse-url-generic
- browse-url-generic-program "chrome")
-(global-set-key "\C-cff" 'browse-url)
-(load-library "browse-apropos")
-;;(setq browse-url-browser-function "firefox")
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ORG mode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
@@ -247,15 +195,6 @@
       '(("Todo" ?t "* TODO %^{Brief Description} %^g\n%?\nAdded: %U"
          "~/notes/organized.org" "Tasks")))
 
-;; Wiki editing
-(require 'yaoddmuse)
-;; w3m
-(require 'w3m-load)
-(require 'w3m-e21)
-(provide 'w3m-e23)
-(setq w3m-default-display-inline-images nil)
-(setq w3m-use-cookies t)
-
 ;; Unittests
 (require 'fringe-helper)
 (autoload 'test-case-mode "test-case-mode" nil t)
@@ -266,15 +205,6 @@
 
 ;; Session Management
 (desktop-save-mode t)
-
-;; Blogging
-(require 'weblogger)
-(custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(weblogger-config-alist (quote (("deadpansincerity" "http://blog.deadpansincerity.com/xmlrpc.php" "admin" "" "1")))))
 
 ;; Function names in the header line
 (require 'which-func)
@@ -297,8 +227,6 @@
     (setq header-line-format which-func-header-line-format)))
 (add-hook 'find-file-hooks 'which-func-ff-hook)
 
-;(require 'onzo)
-
 (autoload 'ack-same "full-ack" nil t)
 (autoload 'ack "full-ack" nil t)
 (autoload 'ack-find-same-file "full-ack" nil t)
@@ -316,16 +244,8 @@
 (setq package-user-dir (expand-file-name (emacsdir "/elpa")))
 
 
-    (defun toggle-fullscreen (&optional f)
-      (interactive)
-      (let ((current-value (frame-parameter nil 'fullscreen)))
-           (set-frame-parameter nil 'fullscreen
-                                (if (equal 'fullboth current-value)
-                                    (if (boundp 'old-fullscreen) old-fullscreen nil)
-                                    (progn (setq old-fullscreen current-value)
-                                           'fullboth)))))
-
-    (global-set-key [f11] 'toggle-fullscreen)
 
 
+
+;; Code ends
 (provide 'econf)
