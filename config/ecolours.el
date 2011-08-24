@@ -1,6 +1,7 @@
 ;; Set the default font here
-(set-default-font
- "-unknown-DejaVu Sans Mono-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
+(ignore-errors
+  (set-default-font
+   "-unknown-DejaVu Sans Mono-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1"))
 
 
 ;; Colours
@@ -57,7 +58,7 @@
 
 ;; make whitespace-mode use “¶” for newline and “▷” for tab.
 ;; together with the rest of its defaults
-(setq whitespace-display-mappings
+(setq whitespace-display-mappings 
  '(
    (space-mark 32 [183] [46]) ; normal space, ·
    (space-mark 160 [164] [95])

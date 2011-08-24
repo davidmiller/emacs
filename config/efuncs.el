@@ -7,13 +7,13 @@
        (defun ,(intern filestr) ()
          ,(format "Open %s for editing" filestr)
          (interactive)
-         (find-file ,(if path path (concat "~/" filestr)))))))
+         (find-file ,(if path path (concat ~ filestr))))))) ;; ~ set in .emacs
 
 (dotfile .emacs)
 
 (defun x-reload-dot-emacs()
   (interactive)
-  (load-file "~/.emacs"))
+  (load-file (concat ~ ".emacs")))
 
 (global-set-key "\C-c\C-r" 'x-reload-dot-emacs)
 (global-set-key "\C-c\C-e" '.emacs)

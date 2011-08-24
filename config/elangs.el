@@ -26,7 +26,8 @@
                                         ;SLIME interaction
 (setq inferior-lisp-program "/usr/bin/sbcl")
 (require 'slime)
-(slime-setup '(slime-fancy))
+(ignore-errors
+ (slime-setup '(slime-fancy)))
 (global-font-lock-mode t)
 
 (add-hook 'lisp-mode-hook '(lambda ()
