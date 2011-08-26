@@ -35,7 +35,7 @@
        ;; Buffer management
        ("\C-x\C-b" 'ibuffer)
        ("\C-c\#" 'ido-find-file-other-window)
-       ((kbd "<f5>") #'(lambda () (revert-buffer t t)))
+       ((kbd "<f5>") 'revert-buffer)
        ("\C-c\C-w" 'jump-to-register)
        ([M-left] 'windmove-left) ; move to left windnow
        ([M-right] 'windmove-right) ; move to right window
@@ -48,12 +48,13 @@
        ("\C-cR" 'rename-current-file-or-buffer)
 
        ;; Version Control
-       ("\C-c\h\p" 'xhg-push)
-       ("\C-c\g\p" 'xgit-push)
-       ("\C-c\h\P" 'xhg-pull)
-       ("\C-c\g\P" 'xgit-pull)
-       ("\C-chl" 'xhg-log)
-       ("\C-chd" 'xhg-log-toggle-diff-for-changeset)
+       ("\C-c\hs" 'monky-status)
+       ;; ("\C-c\h\p" 'xhg-push)
+       ;; ("\C-c\g\p" 'xgit-push)
+       ;; ("\C-c\h\P" 'xhg-pull)
+       ;; ("\C-c\g\P" 'xgit-pull)
+       ;; ("\C-chl" 'xhg-log)
+       ;; ("\C-chd" 'xhg-log-toggle-diff-for-changeset)
 
        ;; Python
        ("\M-p" 'pyflakes-show-help)

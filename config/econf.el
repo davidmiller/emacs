@@ -28,6 +28,17 @@
  'enterwebs   ;; Interacting with a World Wide Web
  )
 
+;; Dizzee package - Managing projects and supbrocesses
+(require 'dizzee)
+
+(dz-defservice onzo-backend "~/src/onzo/backend/lib/backend_server" :port 8080)
+(dz-defservice onzo-static "~/src/onzo/thinclient/browser/static.py":port 4567)
+
+(dz-defservice onzo-client "~/src/onzo/client/src/client/run_client_sse.sh"
+               :cd '.)
+
+;(dz-defservice onzo-sseweb "~/src/onzo/sseweb/onzo_pss/manage.py" (list "runserver") 8000)
+
 (setq ring-bell-function 'ignore);; disable bell function
 (defalias 'yes-or-no-p 'y-or-n-p) ;; less typing for me
 
