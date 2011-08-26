@@ -93,6 +93,15 @@
 
        ))
 
+;;
+;; Windows specific consistency rebindings
+;;
+(if win-p
+    (gset-key
+     ;; Right Menu Key mapped to different keycode in Win7
+     (([apps]'execute-extended-command))
+     ))
+
 (define-key global-map "\C-c\C-y" 'clipboard-yank); clipboard paste
 (define-key global-map "\C-ccx" 'clipboard-kill-region); clipboard paste
 
