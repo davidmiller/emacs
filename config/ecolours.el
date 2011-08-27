@@ -70,7 +70,7 @@
    (tab-mark 9 [9655 9] [92 9]) ; tab, ▷
 ))
 (add-to-list 'whitespace-display-mappings
-             (if (*nix)
+             (if *nix
                  '(newline-mark 10 [8629 10])
                  '(newline-mark 10 [182 10]))) ; newlne, ¶)
 
