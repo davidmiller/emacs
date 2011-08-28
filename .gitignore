@@ -19,3 +19,5 @@ come-fly
 dizzee
 thrift-mode
 emodes
+# Force manual addition of anything under here
+site-packages/
