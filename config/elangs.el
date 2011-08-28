@@ -17,37 +17,26 @@
               'rainbow-mode ; Background hex colour declarations with their values
               'emodes)
 
+(defmacro defext (regexp mode)
+  "Set the auto mode for files whose extension matches REGEXP to MODE"
+  `(add-to-list 'auto-mode-alist '(,regexp . ,mode)))
+
 ;; Individual language requires
-(require-many 'elua
+(require-many 'elispish
+              'elua
               'epython
               'ejavascript)
 
-;;;;  Lisp
-                                        ;SLIME interaction
-(setq inferior-lisp-program "/usr/bin/sbcl")
-(require 'slime)
-(ignore-errors
- (slime-setup '(slime-fancy)))
 (global-font-lock-mode t)
 
-(add-hook 'lisp-mode-hook '(lambda ()
-                             (set-mode-style ide-style)
-                             (eldoc-mode t)))
-
-(add-hook 'emacs-lisp-mode-hook '(lambda ()
-                                   (set-mode-style ide-style)
-                                   (smart-operator-mode nil)
-                                   (eldoc-mode t)))
-(add-to-list 'auto-mode-alist '("\\.cl\\'" . lisp-mode))
-
-  (autoload 'enable-paredit-mode "paredit"
-    "Turn on pseudo-structural editing of Lisp code."
-    t)
-
+;;
+;; Minor customisations
+;;
 
 ;;;; Ruby
 (require 'feature-mode)
-(add-to-list 'auto-mode-alist '("\.feature$" . feature-mode))
+(defext "\.feature$" feature-mode)
+
 (require 'rails)
 (add-hook 'ruby-mode-hook '(lambda ()
                              (set-mode-style ide-style)))
@@ -55,14 +44,17 @@
 
 ;;;;  PHP
 (load-library "php-mode")
-(add-to-list 'auto-mode-alist '("\\.tpl\\'" . html-mode))
+(defext "\\.tpl\\'" html-mode)
 
 ;; Erlang
 (load-library "erlang")
-(add-to-list 'auto-mode-alist '("\\.erl\\'" . erlang-mode))
+(defext "\\.erl\\'" erlang-mode)
 (add-to-list 'erlang-mode-hook '(lambda ()
                                   (set-mode-style ide-style)))
+
+;;
 ;; c++
+;;
 
 ; Indentation style I want to use in c++ mode
 (c-add-style "my-style"
@@ -93,13 +85,13 @@
 
 ;;; Thrift
 (require 'thrift-mode)
-(add-to-list 'auto-mode-alist '("\\.thrift\\'" . thrift-mode))
+(defext "\\.thrift\\'" thrift-mode)
 (add-hook 'thrift-mode-hook '(lambda ()
                                (set-mode-style ide-style)))
 
-
+;;
 ;; Java
-
+;;
 ;; Jde
 (require 'jde)
 (setq defer-loading-jde t)
@@ -107,12 +99,8 @@
 (if defer-loading-jde
     (progn
       (autoload 'jde-mode "jde" "JDE mode." t)
-      (setq auto-mode-alist
-        (append
-         '(("\\.java\\'" . jde-mode))
-         auto-mode-alist)))
+      (defext "\\.java\\'" jde-mode))
   (require 'jde))
-
 
 ;; Sets the basic indentation for Java source files
 ;; to two spaces.
@@ -121,21 +109,25 @@
 
 (add-hook 'jde-mode-hook 'my-jde-mode-hook)
 
-;; Include the following only if you want to run
-;; bash as your shell.
-
+;;
 ;; Clojure
+;;
 (add-load-dir "~/emacs/elpa/")
 
 (require 'clojure-mode)
 (font-lock-add-keywords 'clojure-mode
   '(("true" . font-lock-builtin-face)))
 
+;;
 ;; C#
+;;
 (require 'csharp-mode)
 
+;;
 ;; R
+;;
 (load (sitedir "ess/lisp/ess-site.el"))
 
+;; Code ends
 (provide 'elangs)
 

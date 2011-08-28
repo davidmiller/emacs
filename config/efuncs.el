@@ -1,5 +1,12 @@
-;; Custom
+;;
+;; efuncs.el - Collection of useful functions
+;;
 
+;; Code starts
+
+;;
+;; Dotfile tweaking
+;;
 (defmacro dotfile (filename &optional path)
   "Define the function `filename' to edit the dotfile in question"
   (let ((filestr (symbol-name filename)))
@@ -9,24 +16,22 @@
          (interactive)
          (find-file ,(if path path (concat ~ filestr))))))) ;; ~ set in .emacs
 
-(dotfile .emacs)
-
-(defun x-reload-dot-emacs()
+(defun drm-dot-emacs()
   (interactive)
   (load-file (concat ~ ".emacs")))
-
-(global-set-key "\C-c\C-r" 'x-reload-dot-emacs)
-(global-set-key "\C-c\C-e" '.emacs)
-
-(dotfile .bashrc)
-(dotfile .hgrc)
-(dotfile .conkyrc)
-(dotfile .ssh "~/.ssh/config")
 
 (defun reload-gnus()
   (interactive)
   (load-file "~/.gnus"))
 (global-set-key "\C-cGR" 'reload-gnus)
+
+(dotfile .emacs)
+(dotfile .bashrc)
+(dotfile .hgrc)
+(dotfile .conkyrc)
+(dotfile .ssh "~/.ssh/config")
+
+
 
 (defun rename-current-file-or-buffer ()
   (interactive)
@@ -166,5 +171,5 @@ be a real filename, not a path."
 (add-to-list 'auto-mode-alist '("\\.xls\\'" . no-xls))
 (add-to-list 'auto-mode-alist '("\\.xlsx\\'" . no-xls))
 
-
+;; Code ends
 (provide 'efuncs)

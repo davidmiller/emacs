@@ -172,9 +172,10 @@
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
 ;; Version Control
-(require 'dvc-autoloads)
-(setq dvc-tips-enabled nil)
-(require 'monky)
+(require-many
+ 'magit  ;; Git interface
+ 'monky) ;; Mercurial interface
+
 
 ;; Programming - IDE stuff
 

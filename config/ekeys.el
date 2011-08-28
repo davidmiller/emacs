@@ -49,12 +49,6 @@
 
        ;; Version Control
        ("\C-c\hs" 'monky-status)
-       ;; ("\C-c\h\p" 'xhg-push)
-       ;; ("\C-c\g\p" 'xgit-push)
-       ;; ("\C-c\h\P" 'xhg-pull)
-       ;; ("\C-c\g\P" 'xgit-pull)
-       ;; ("\C-chl" 'xhg-log)
-       ;; ("\C-chd" 'xhg-log-toggle-diff-for-changeset)
 
        ;; Python
        ("\M-p" 'pyflakes-show-help)
@@ -71,6 +65,8 @@
        ("\C-w" 'backward-kill-word)
        ("\C-x\C-k" 'kill-region)
        ("\C-c\C-k" 'kill-region)
+       ("\C-c\C-y" 'clipboard-yank); clipboard paste
+       ("\C-ccx" 'clipboard-kill-region); clipboard paste
        ((kbd "C-M-S-j")
         #'(lambda () (interactive) (previous-line) (move-end-of-line nil) (newline-and-indent)))
        ((kbd "C-M-j")
@@ -92,6 +88,11 @@
        ;; Lisp
        ("\C-c\m" 'pp-macroexpand-last-sexp)
 
+       ;; Dotfiles
+       ("\C-c\C-r" 'x-reload-dot-emacs)
+       ("\C-c\C-e" '.emacs)
+
+
        ))
 
 ;;
@@ -102,13 +103,6 @@
      ;; Right Menu Key mapped to different keycode in Win7
      (([apps]'execute-extended-command))
      ))
-
-(define-key global-map "\C-c\C-y" 'clipboard-yank); clipboard paste
-(define-key global-map "\C-ccx" 'clipboard-kill-region); clipboard paste
-
-;;
-;; Extended Keymap Munging
-;;
 
 ;; Code ends.
 

@@ -20,8 +20,8 @@
 
 (require 'pony-mode)
 (autoload 'python-mode "python-mode" "Python editing mode." t)
-(add-to-list 'auto-mode-alist '("\\.wsgi\\'" . python-mode))
-(setq auto-mode-alist (cons '("\\.py$" . python-mode) auto-mode-alist))
+(defext "\\.wsgi\\'" python-mode)
+(defext "\\.py$" python-mode)
 (setq interpreter-mode-alist (cons '("python" . python-mode)
                                    interpreter-mode-alist))
 
