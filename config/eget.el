@@ -51,6 +51,8 @@ creating an `el-get-sources' variable"
           ;; Get slime from this github mirror until Clojure
           ;; sort out numerous infrastructure issues
           slime)
+   (:user magit
+          magit)
    (:user nex3
           haml-mode)
    (:user immerrr
