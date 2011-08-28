@@ -13,11 +13,10 @@
 (setq el-get-dir (emacsdir "site-packages"))
 (setq el-get-status-file (path.join emacs-root "site-packages" ".status.el"))
 
-(macroexpand (ifhost rasputin
+(ifhost rasputin
         ;; For utterly inane reasons the system git on this box is
         ;; too low a version to be compatible with el-get's git submodule args
         (setq el-get-git "/home/david/bin/git"))
-)
 
 (defmacro el-get-hub (&key user &rest sources)
   "Create el-get sources from the symbols passed as `sources'"
