@@ -31,18 +31,16 @@
 ;; Sort out installing x-platform
 ;; 
 
-(if *nix
-    (ifhost parmenides
-	    nil ;; Packaging nonsense with emacs versions.
-	    (progn
-	      (require-many
-	       'w3m-load        ;; Text-only browser
-	       'w3m-e21
-	       'browse-apropos  ;; Quick jumps to sites for w3m
-	       )
-	      (provide 'w3m-e23)
-	      (setq w3m-default-display-inline-images nil)
-	      (setq w3m-use-cookies t))))
+(ifhost munch
+	(progn
+	  (require-many
+	   'w3m-load        ;; Text-only browser
+	   'w3m-e21
+	   'browse-apropos  ;; Quick jumps to sites for w3m
+	   )
+	  (provide 'w3m-e23)
+	  (setq w3m-default-display-inline-images nil)
+	  (setq w3m-use-cookies t)))
 
 ;; Code Ends
 (provide 'enterwebs)
