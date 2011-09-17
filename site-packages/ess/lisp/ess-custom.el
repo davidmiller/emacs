@@ -124,7 +124,7 @@
 
 ;; Variables (not user-changeable)
 
-(defvar ess-version "5.13"
+(defvar ess-version "5.14"
   "Version of ESS currently loaded.")
 
 (defvar no-doc
@@ -702,6 +702,13 @@ syntactically correct roxygen entries)"
 the first entry is the default command."
   :group 'ess-sweave
   :type 'list)
+
+(defcustom ess-swv-plug-into-AUCTeX-p nil
+  "Non-nil means add commands to AUCTeX's \\[TeX-command-list]
+to sweave the current noweb file and latex the result."
+  :group 'ess-sweave
+  :type '(choice (const :tag "Off" nil)
+                 (const :tag "On" t)))
 
 
  ; System variables
@@ -1304,6 +1311,10 @@ of Emacs until the code has been successfully evaluated."
   :group 'ess-proc
   :type '(choice (const nil) number))
 
+(defcustom ess-sleep-for-shell (if ess-microsoft-p 5 1)
+  "*Pause before sending output to the shell."
+  :group 'ess-proc
+  :type  'number)
 
  ; System variables
 

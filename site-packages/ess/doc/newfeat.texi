@@ -1,5 +1,29 @@
 @itemize @w{}
 
+Changes/New Features in 5.14:
+@itemize @bullet
+@item @ESS{[BUGS/JAGS]}:  Batch BUGS is back!  For recent OpenBUGS
+versions, 3.0.8+, a batch BUGS script is once again available,
+but for Linux only.  Therefore, since it seems that BUGS and JAGS must
+co-exist (rather than a transition from BUGS to JAGS), .bug files are
+now in @ESS{[BUGS]} mode and .jag files are in @ESS{[JAGS]} mode.  @ESS{[BUGS]} now
+works like @ESS{[JAGS]} rather than the original mode @ESS{[BUGS]} mode which
+was difficult to maintain.  Although, @ESS{[BUGS]} appears to work,
+there still may be some features missing as well as bugs.
+
+@item @ESS{[R]}: New customizable variable @code{ess-swv-plug-into-AUCTeX-p}
+Commands to Sweave current file and LaTeX the result are now available
+to AUCTeX users, if this variable is set to @code{t}.
+
+@item @ESS{[S]}: @kbd{C-c C-c}
+(@code{ess-eval-function-or-paragraph-and-step}) is now skipping over
+comments as the other paragraph functions do.
+It (and similar functions) should no longer wrongly find
+@samp{function()} beginnings inside comments or strings.
+
+@item @ESS{[SAS]}: improved by better support for GNU Emacs 
+@end itemize
+
 Changes/New Features in 5.13:
 @itemize @bullet
 @item @ESS{[R]}: On Windows, for R 2.12.0 and later, the Rterm executables

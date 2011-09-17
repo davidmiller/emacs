@@ -109,6 +109,7 @@
 (setq ac-ignore-case nil)
 (setq ac-quick-help-delay 1)
 (require 'yasnippet)
+(setq yas/snippet-dirs (emacsdir "snippets"))
 (yas/initialize)
 (yas/load-directory (sitedir "yasnippet/snippets/text-mode"))
 

@@ -1,4 +1,0 @@
-#contributor : David Miller <david@deadpansincerity.com>
-#name : font-weight: ...
-# --
-font-weight: $1;
