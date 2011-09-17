@@ -1,3 +1,4 @@
+
 ;;
 ;; eget.el - El get config
 ;;
@@ -62,6 +63,11 @@ creating an `el-get-sources' variable"
    ;; let's return to the el-get 'classic' method of
    ;; specifying packages
    ;;
+
+  ;; This whole file is going to blow up on merge.
+  ;; Such is life.
+;  (:name smex
+ ;        :type elpa)
 
   ;;Major modes
   (:name python-mode

@@ -22,7 +22,7 @@
   `(add-to-list 'auto-mode-alist '(,regexp . ,mode)))
 
 ;; Individual language requires
-(require-many 'elispish
+(require-many ;'elispish
               'elua
               'epython
               'ejavascript)

@@ -39,6 +39,8 @@
 
 ;(dz-defservice onzo-sseweb "~/src/onzo/sseweb/onzo_pss/manage.py" (list "runserver") 8000)
 
+(require 'fab)
+
 (setq ring-bell-function 'ignore);; disable bell function
 (defalias 'yes-or-no-p 'y-or-n-p) ;; less typing for me
 
@@ -253,10 +255,14 @@
   (add-to-list 'package-archives
                '("marmalade" . "http://marmalade-repo.org/packages/"))
   (package-initialize))
-(setq package-user-dir (expand-file-name (emacsdir "/elpa")))
+(setq package-user-dir (expand-file-name (emacsdir "elpa")))
 
 
-
+;; Edit DNS records with sane highlighting and auto-increment serial
+(add-hook 'find-file-hook
+          (lambda nil
+            (if (string-match "/etc/bind" (buffer-file-name))
+                (dns-mode))))
 
 
 ;; Code ends

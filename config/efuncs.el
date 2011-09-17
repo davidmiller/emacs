@@ -30,7 +30,8 @@
 (dotfile .hgrc)
 (dotfile .conkyrc)
 (dotfile .ssh "~/.ssh/config")
-
+(dotfile .screenrc)
+(dotfile .xsession)
 
 
 (defun rename-current-file-or-buffer ()
