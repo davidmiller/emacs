@@ -47,41 +47,50 @@ creating an `el-get-sources' variable"
    ;;
    ;; Now we move on to 3rd party packlages from Github
    ;;
+   (:user ananthakumaran
+          monky)
+   (:user dima-exe
+          emacs-rails-reloaded)
+   (:user immerrr
+          lua-mode)
+   (:user m2ym
+          auto-complete)
+   (:user magit
+          magit)
+   (:user nex3
+          haml-mode)
    (:user technomancy
           clojure-mode
           ;; Get slime from this github mirror until Clojure
           ;; sort out numerous infrastructure issues
           slime)
-   (:user magit
-          magit)
-   (:user nex3
-          haml-mode)
-   (:user immerrr
-          lua-mode))
+   )
    ;;
    ;; Having dealt with source-specific packages,
    ;; let's return to the el-get 'classic' method of
    ;; specifying packages
    ;;
-
-  ;; This whole file is going to blow up on merge.
-  ;; Such is life.
-;  (:name smex
- ;        :type elpa)
-
-  ;;Major modes
-  (:name python-mode
-         :type bzr
-         :url "lp:python-mode")
-  (:name csharp-mode
-         :type svn
-         :url "http://csharpmode.googlecode.com/svn/trunk/")
-
   (:name color-theme
          :type bzr
          :url "bzr://bzr.savannah.nongnu.org/color-theme/trunk")
+   (:name csharp-mode
+         :type svn
+         :url "http://csharpmode.googlecode.com/svn/trunk/")
+  (:name diminish
+         :type http
+         :url "http://www.eskimo.com/~seldon/diminish.el")
+  (:name ess
+         :type svn
+         :url "https://svn.r-project.org/ESS/trunk")
   (:name pastebin
-         :type emacswiki))
+         :type emacswiki)
+  (:name python-mode
+         :type bzr
+         :url "lp:python-mode")
+  (:name yasnippet
+         :type svn
+         :url "http://yasnippet.googlecode.com/svn/trunk/")
+   )
 
 (setq my-packages
       (append

@@ -49,6 +49,7 @@
 
        ;; Version Control
        ("\C-c\hs" 'monky-status)
+       ("\C-c\gs" 'magit-status)
 
        ;; Python
        ("\M-p" 'pyflakes-show-help)
@@ -91,7 +92,6 @@
        ;; Dotfiles
        ("\C-c\C-r" 'x-reload-dot-emacs)
        ("\C-c\C-e" '.emacs)
-
 
        ))
 

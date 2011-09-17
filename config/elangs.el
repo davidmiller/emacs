@@ -37,7 +37,7 @@
 (require 'feature-mode)
 (defext "\.feature$" feature-mode)
 
-(require 'rails)
+(require 'rails-autoload)
 (add-hook 'ruby-mode-hook '(lambda ()
                              (set-mode-style ide-style)))
 (require 'come-fly)

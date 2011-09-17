@@ -563,7 +563,9 @@ it cannot find a function beginning."
 
       ;; In the case of non-success, it is inefficiently
       ;; going back in the buffer through all function definitions...
-      (unless (re-search-backward ess-function-pattern (point-min) t)
+      (unless
+	  (and (re-search-backward ess-function-pattern (point-min) t)
+	       (not (ess-inside-string-or-comment-p (point))))
 	(goto-char init-point)
 	(if no-error
 	    (setq  done t  beg nil)
@@ -717,6 +719,9 @@ With prefix argument, only shows the errors ESS reported."
       (goto-char (point-max))
       (if
 	  (re-search-backward
+	   ;; FIXME: R does not give "useful" error messages -
+	   ;; -----  by default: We (ESS) could try to use a more useful one, via
+	   ;;   options(error = essErrorHandler)
 	   "^\\(Syntax error: .*\\) at line \\([0-9]*\\), file \\(.*\\)$"
 	   nil
 	   t)
@@ -734,7 +739,8 @@ With prefix argument, only shows the errors ESS reported."
 		  (set-buffer fbuffer)
 		  (ess-mode)))
 	      (pop-to-buffer fbuffer)
-	      (goto-line linenum))
+	      ;;(goto-line linenum) gives warning: is said to be replaced by
+	      (goto-char (point-min)) (forward-line (1- linenum)))
 	    (princ errmess t))
 	(message "Not a syntax error.")
 	(ess-display-temp-buffer errbuff)))))
@@ -746,34 +752,34 @@ With prefix argument, only shows the errors ESS reported."
 (defun ess-electric-brace (arg)
   "Insert character and correct line's indentation."
   (interactive "P")
-;; skeleton-pair takes precedence
-(if (and (boundp 'skeleton-pair) skeleton-pair (featurep 'skeleton))
-  (skeleton-pair-insert-maybe "{")
-;; else
-  (let (insertpos)
-    (if (and (not arg)
-	     (eolp)
-	     (or (save-excursion
-		   (skip-chars-backward " \t")
-		   (bolp))
-		 (if ess-auto-newline (progn (ess-indent-line) (newline) t) nil)))
-	(progn
-	  (insert (if (featurep 'xemacs) (event-to-character last-command-event) last-command-event))
-	  (ess-indent-line)
-	  (if ess-auto-newline
-	      (progn
-		(newline)
-		;; (newline) may have done auto-fill
-		(setq insertpos (- (point) 2))
-		(ess-indent-line)))
+  ;; skeleton-pair takes precedence
+  (if (and (boundp 'skeleton-pair) skeleton-pair (featurep 'skeleton))
+      (skeleton-pair-insert-maybe "{")
+    ;; else
+    (let (insertpos)
+      (if (and (not arg)
+	       (eolp)
+	       (or (save-excursion
+		     (skip-chars-backward " \t")
+		     (bolp))
+		   (if ess-auto-newline (progn (ess-indent-line) (newline) t) nil)))
+	  (progn
+	    (insert (if (featurep 'xemacs) (event-to-character last-command-event) last-command-event))
+	    (ess-indent-line)
+	    (if ess-auto-newline
+		(progn
+		  (newline)
+		  ;; (newline) may have done auto-fill
+		  (setq insertpos (- (point) 2))
+		  (ess-indent-line)))
+	    (save-excursion
+	      (if insertpos (goto-char (1+ insertpos)))
+	      (delete-char -1))))
+      (if insertpos
 	  (save-excursion
-	    (if insertpos (goto-char (1+ insertpos)))
-	    (delete-char -1))))
-    (if insertpos
-	(save-excursion
-	  (goto-char insertpos)
-	  (self-insert-command (prefix-numeric-value arg)))
-      (self-insert-command (prefix-numeric-value arg))))))
+	    (goto-char insertpos)
+	    (self-insert-command (prefix-numeric-value arg)))
+	(self-insert-command (prefix-numeric-value arg))))))
 
 (defun ess-indent-command (&optional whole-exp)
   "Indent current line as ESS code, or in some cases insert a tab character.
@@ -1205,11 +1211,11 @@ style variables buffer local."
     (if (not quiet)
 	(message "ESS-style: %s" ess-style))
     ; finally, set the indentation style variables making each one local
-    (mapcar (function (lambda (ess-style-pair)
-			(make-local-variable (car ess-style-pair))
-			(set (car ess-style-pair)
-			     (cdr ess-style-pair))))
-	    (cdr (assq ess-style ess-style-alist)))
+    (mapc (function (lambda (ess-style-pair)
+		      (make-local-variable (car ess-style-pair))
+		      (set (car ess-style-pair)
+			   (cdr ess-style-pair))))
+	  (cdr (assq ess-style ess-style-alist)))
     ess-style))
 
 ;;*;; Creating and manipulating dump buffers
