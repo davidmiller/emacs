@@ -1,0 +1,7 @@
+# name : function template
+# contributor : David Miller <david@deadpansincerity.com>
+# key: fun
+# --
+(defun $1 ($2)
+  "${3:thisandthat.}"
+    $0)
