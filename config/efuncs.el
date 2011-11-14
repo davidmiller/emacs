@@ -172,5 +172,12 @@ be a real filename, not a path."
 (add-to-list 'auto-mode-alist '("\\.xls\\'" . no-xls))
 (add-to-list 'auto-mode-alist '("\\.xlsx\\'" . no-xls))
 
+
+(defun ts2dt ()
+  "Convert the Timestamp at point to a datetime and echo in the minibuffer"
+  (interactive)
+  (message (shell-command-to-string (concat "date -ud @"
+                                            (word-at-point)))))
+
 ;; Code ends
 (provide 'efuncs)
