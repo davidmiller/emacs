@@ -22,22 +22,24 @@
 ;; Sub-configuration packages
 ;;
 (require-many
- 'ecomms      ;; Communications with the outside world - IM/IRC/Twitter/Email
- 'edisplay    ;; Visual display of the window
- 'edocs       ;; Access to documentation files/resources from within Emacs
- 'enterwebs   ;; Interacting with a World Wide Web
+ 'ecomms            ;; Communications with the outside world - IM/IRC/Twitter/Email
+ 'edisplay          ;; Visual display of the window
+ 'edocs             ;; Access to documentation files/resources from within Emacs
+ 'emath             ;; Math utilities
+ 'enterwebs         ;; Interacting with a World Wide Web
+ 'efourth-dimension ;; Date/Time utilities
  )
 
 ;; Dizzee package - Managing projects and supbrocesses
 (require 'dizzee)
 
-(dz-defservice onzo-backend "~/src/onzo/backend/lib/backend_server" :port 8080)
-(dz-defservice onzo-static "~/src/onzo/thinclient/browser/static.py":port 4567)
+;; (dz-defservice onzo-backend "~/src/onzo/backend/lib/backend_server" :port 8080)
+;; (dz-defservice onzo-static "~/src/onzo/thinclient/browser/static.py":port 4567)
 
-(dz-defservice onzo-client "~/src/onzo/client/src/client/run_client_sse.sh"
-               :cd '.)
+;; (dz-defservice onzo-client "~/src/onzo/client/src/client/run_client_sse.sh"
+;;                :cd '.)
 
-;(dz-defservice onzo-sseweb "~/src/onzo/sseweb/onzo_pss/manage.py" (list "runserver") 8000)
+;; ;(dz-defservice onzo-sseweb "~/src/onzo/sseweb/onzo_pss/manage.py" (list "runserver") 8000)
 
 (require 'fab)
 
@@ -83,6 +85,7 @@
 (require 'autopair)
 
 (require 'auto-complete-config)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; (setq-default ac-sources '(ac-source-words-in-same-mode-buffers
 ;;                            ac-source-yasnippet
@@ -104,9 +107,9 @@
 ;; (add-hook 'python-mode-hook
 ;;           (lambda () (add-to-list 'ac-sources 'ac-source-ropemacs)))
 (global-auto-complete-mode t)
-                                        ;(ac-css-keywords-initialize)
-                                        ;(ac-set-trigger-key "C-c C-/")
-                                        ;(setq ac-auto-start nil)
+;;                                         ;(ac-css-keywords-initialize)
+;;                                         ;(ac-set-trigger-key "C-c C-/")
+;;                                         ;(setq ac-auto-start nil)
 (setq ac-auto-start 2)
 (setq ac-ignore-case nil)
 (setq ac-quick-help-delay 1)
@@ -115,7 +118,7 @@
 (yas/initialize)
 (yas/load-directory (sitedir "yasnippet/snippets/text-mode"))
 
-;;;;;;;;;;;;;;;;;;;;;;;;  Buffer Management ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;  buffer Management ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq split-window-preferred-function 'split-window-sensibly)
 (winner-mode 1)
@@ -195,7 +198,9 @@
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)
 (add-hook 'org-mode-hook '(lambda ()
-                            (set-mode-style textual-style)))
+                            (set-mode-style textual-style)
+                            (local-set-key [C-down] 'org-priority-down)
+                            (local-set-key [C-up] 'org-priority-up)))
 
 ;; Testing out remember-mode
 (org-remember-insinuate)
@@ -209,6 +214,9 @@
 (setq org-remember-templates
       '(("Todo" ?t "* TODO %^{Brief Description} %^g\n%?\nAdded: %U"
          "~/notes/organized.org" "Tasks")))
+
+(setq org-todo-keywords
+      '((sequence "TODO" "IN PROGRESS" "|" "DONE" "WONT")))
 
 ;; Unittests
 (require 'fringe-helper)
@@ -266,5 +274,5 @@
                 (dns-mode))))
 
 
-;; Code ends
+;; ;; Code ends
 (provide 'econf)

@@ -1,4 +1,3 @@
-
 ;;
 ;; eget.el - El get config
 ;;
@@ -59,6 +58,10 @@ creating an `el-get-sources' variable"
           magit)
    (:user nex3
           haml-mode)
+   (:user nschum
+          full-ack)
+   (:user pdee
+          pdee)
    (:user technomancy
           clojure-mode
           ;; Get slime from this github mirror until Clojure
@@ -73,7 +76,7 @@ creating an `el-get-sources' variable"
   (:name color-theme
          :type bzr
          :url "bzr://bzr.savannah.nongnu.org/color-theme/trunk")
-   (:name csharp-mode
+  (:name csharp-mode
          :type svn
          :url "http://csharpmode.googlecode.com/svn/trunk/")
   (:name diminish
@@ -83,6 +86,8 @@ creating an `el-get-sources' variable"
          :type svn
          :url "https://svn.r-project.org/ESS/trunk")
   (:name pastebin
+         :type emacswiki)
+  (:name mthesaur
          :type emacswiki)
   (:name python-mode
          :type bzr

@@ -76,7 +76,7 @@
   (c-toggle-auto-hungry-state 1)
   (set-mode-style ide-style)
   (local-set-key "\C-c\C-c" 'c-compile))
-
+(kbd "\C-c<down>")
 (add-hook 'c++-mode-hook 'my-c++-mode-hook)
 
 ;; Perl
@@ -122,6 +122,15 @@
 ;; C#
 ;;
 (require 'csharp-mode)
+
+(defun drm-csharp-hook ()
+  (autopair-mode))
+  ;; (local-set-key (kbd ";") (lambda (command)
+  ;;                            (insert ";")
+  ;;                            (newline-and-indent))))
+
+(add-hook 'csharp-mode 'drm-csharp-hook)
+
 
 ;;
 ;; R

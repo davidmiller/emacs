@@ -232,6 +232,7 @@ default using the first entry of `ess-swv-pdflatex-commands' and display it."
 ;; AUCTeX integration.  This is independent of this library, but it fits
 ;; here nonetheless since it's an alternative way of Sweave'ing without
 ;; starting iESS.
+
 (defun ess-swv-add-TeX-commands ()
   "Add commands to AUCTeX's \\[TeX-command-list]."
   (unless (and (featurep 'tex-site) (featurep 'tex))
@@ -249,18 +250,10 @@ default using the first entry of `ess-swv-pdflatex-commands' and display it."
 	  (add-to-list 'TeX-file-extensions suffix))
 	'("nw" "Snw" "Rnw")))
 
-(defun ess-swv-remove-TeX-commands ()
-  "Remove commands from AUCTeX's \\[TeX-command-list]."
-  (let ((swv-cmds '("Sweave" "LaTeXSweave"))
-	tex-cmds cmdpos)
-    (mapc (lambda (x)
-	    (setq tex-cmds (mapcar 'car TeX-command-list))
-	    (setq cmdpos (position x tex-cmds :test #'string-equal))
-	    (when cmdpos
-	      (setq TeX-command-list
-	    	    (remove (nth cmdpos TeX-command-list)
-	    		    TeX-command-list))))
-	  swv-cmds)))
+(defun ess-swv-remove-TeX-commands (x)
+  "Helper function: check if car of X is one of the Sweave strings"
+  (let ((swv-cmds '("Sweave" "LaTeXSweave")))
+    (unless (member (car x) swv-cmds) x)))
 
 (defun ess-swv-plug-into-AUCTeX ()
   "Add commands to AUCTeX's \\[TeX-command-list] to sweave the current noweb
@@ -268,21 +261,25 @@ file and latex the result."
   (if ess-swv-plug-into-AUCTeX-p
       (add-hook 'Rnw-mode-hook 'ess-swv-add-TeX-commands)
     (remove-hook 'Rnw-mode-hook 'ess-swv-add-TeX-commands)
-    (ess-swv-remove-TeX-commands)))
-(when ess-swv-plug-into-AUCTeX-p (ess-swv-plug-into-AUCTeX))
+    (setq TeX-command-list (mapcar 'ess-swv-remove-TeX-commands TeX-command-list)
+	  ;; this will remove the items, leaving nils, so remove them.
+	  TeX-command-list (delq nil TeX-command-list))))
+;; as ess-swv-plug-into-AUCTeX-p is customizable ... :
+(if ess-swv-plug-into-AUCTeX-p
+    (eval-after-load "tex" '(ess-swv-plug-into-AUCTeX)))
 
 (defun ess-swv-toggle-plug-into-AUCTeX ()
   "Toggle inclusion of commands to sweave noweb files and latex the results in
 \\[TeX-command-list] on and off.  Commands are added via \\[Rnw-mode-hook]."
   (interactive)
   (unless (and (featurep 'tex-site) (featurep 'tex))
-    (error "AUCTeX does not seem to be loaded"))
+    (error "AUCTeX are not available"))
   (setq ess-swv-plug-into-AUCTeX-p (not ess-swv-plug-into-AUCTeX-p))
   (ess-swv-plug-into-AUCTeX)
   (TeX-normal-mode t)
   (if ess-swv-plug-into-AUCTeX-p
-      (message "Sweave and LaTeXSweave are known in AUCTeX.")
-    (message "Sweave and LaTeXSweave are no longer known in AUCTeX.")))
+      (message "Sweave and LaTeXSweave are activated in AUCTeX.")
+    (message "Sweave and LaTeXSweave are de-activated in AUCTeX.")))
 
 
 ;;; Now bind some keys.

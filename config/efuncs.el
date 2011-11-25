@@ -5,6 +5,45 @@
 ;; Code starts
 
 ;;
+;; Function-writing macros
+;;
+(defmacro* macfun (name body &key args &key docstr &key docformats)
+  "Expand to define a function called NAME executing BODY.
+
+Let ARGS be the arguments list to the function.
+
+Let DOCSTR be the documentation for that function, with the optional
+arguments DOCFORMATS provided to FORMAT in order to render contextual documentation.
+
+Define the function within a lexical context that contains the variables `name' and
+`name-str' (A string version of the name.)"
+  (let ((name name)
+        (name-str (symbol-name name)))
+    `(progn
+       (defun ,(intern name-str) ,args
+         ,@body))))
+
+(macfun iotop
+        ((interactive)
+         (ansi-term name-str name-str)
+         (switch-to-buffer (format "*%s*" name-str))))
+
+;;
+;; Shell programs in buffers
+;;
+(defmacro defshell (name)
+  "Define the function `name' such that it runs `name' in a shell buffer"
+  (let ((namestr (symbol-name name)))
+  `(progn
+     (defun ,(intern namestr) ()
+       (interactive)
+       (ansi-term ,namestr ,namestr)
+       (switch-to-buffer ,(format "*%s*" namestr))))))
+
+(defshell ipython)
+(defshell iotop)
+
+;;
 ;; Dotfile tweaking
 ;;
 (defmacro dotfile (filename &optional path)
@@ -32,7 +71,6 @@
 (dotfile .ssh "~/.ssh/config")
 (dotfile .screenrc)
 (dotfile .xsession)
-
 
 (defun rename-current-file-or-buffer ()
   (interactive)
@@ -110,11 +148,6 @@
           (set-buffer buffer)
           (revert-buffer nil t)
           (message "Reverting %s" (buffer-file-name buffer))))))
-
-(defun ipython ()
-  (interactive)
-  (ansi-term "ipython" "iPython")
-  (switch-to-buffer "*iPython*"))
 
 (defun run-hooks-for (hooks)
   "Run the hooks stored in `hooks`"

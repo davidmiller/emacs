@@ -76,21 +76,20 @@
   (define-key ess-roxy-mode-map (kbd "C-c C-e C-c") 'ess-roxy-toggle-roxy-region)
   )
 
-(defconst ess-roxy-font-lock-keywords
-  (eval-when-compile
-    `((,(concat ess-roxy-str " *\\([@\\]"
-		(regexp-opt ess-roxy-tags-param t)
-		"\\)\\>")
-       (1 'font-lock-keyword-face prepend))
-      (,(concat ess-roxy-str " *\\([@\\]"
-         (regexp-opt '("param") t)
-         "\\)\\>\\(?:[ \t]+\\(\\sw+\\)\\)?")
-       (1 'font-lock-keyword-face prepend)
-       (3 'font-lock-variable-name-face prepend))
-      (,(concat "[@\\]" (regexp-opt ess-roxy-tags-noparam t) "\\>")
-       (0 'font-lock-variable-name-face prepend))
-      (,(concat ess-roxy-str)
-       (0 'bold prepend)))))
+(defvar ess-roxy-font-lock-keywords
+  `((,(concat "^" ess-roxy-str " *\\([@\\]"
+	      (regexp-opt ess-roxy-tags-param t)
+	      "\\)\\>")
+     (1 'font-lock-keyword-face prepend))
+    (,(concat "^" ess-roxy-str " *\\([@\\]"
+	      (regexp-opt '("param") t)
+	      "\\)\\>\\(?:[ \t]+\\(\\sw+\\)\\)?")
+     (1 'font-lock-keyword-face prepend)
+     (3 'font-lock-variable-name-face prepend))
+    (,(concat "[@\\]" (regexp-opt ess-roxy-tags-noparam t) "\\>")
+     (0 'font-lock-variable-name-face prepend))
+    (,(concat "^" ess-roxy-str)
+     (0 'bold prepend))))
 
 (define-minor-mode ess-roxy-mode
   "Minor mode for editing in-code documentation."
@@ -139,6 +138,19 @@
 	(setq beg (point)))
       beg)))
 
+(defun ess-roxy-in-header-p () 
+  "true if point is the description / details field"
+  (save-excursion
+    (let ((res t)
+	  (cont (ess-roxy-entry-p)))
+      (beginning-of-line)
+      (while cont
+	(if (looking-at (concat "^" ess-roxy-str " *[@].+"))
+	    (progn (setq res nil)
+		   (setq cont nil)))
+	(setq cont (and (= (forward-line -1) 0) (ess-roxy-entry-p)))
+	)res)))
+
 (defun ess-roxy-beg-of-field ()
   "Get point number at beginning of current field, 0 if not in entry"
   (save-excursion
@@ -150,11 +162,12 @@
 	(setq beg (point))
 	(if (looking-at (concat "^" ess-roxy-str " *[@].+"))
 	    (setq cont nil))
-	(if (looking-at (concat "^" ess-roxy-str " *$"))
-	    (progn
-	      (forward-line 1)
-	      (setq beg (point))
-	      (setq cont nil)))
+	(if (ess-roxy-in-header-p)
+	    (if (looking-at (concat "^" ess-roxy-str " *$"))
+		(progn
+		  (forward-line 1)
+		  (setq beg (point))
+		  (setq cont nil))))
 	(if cont (setq cont (= (forward-line -1) 0))))
       beg)))
 
@@ -183,8 +196,11 @@
       (forward-line 1)
       (setq cont t)
       (while (and (ess-roxy-entry-p) cont)
-	(setq end (point))
-	(if (or (looking-at (concat "^" ess-roxy-str " *$"))
+	(save-excursion 
+	  (end-of-line)
+	  (setq end (point)))
+	(if (or (and (ess-roxy-in-header-p) 
+		     (looking-at (concat "^" ess-roxy-str " *$")))
 		(looking-at (concat "^" ess-roxy-str " *[@].+")))
 	    (progn
 	      (forward-line -1)
@@ -208,14 +224,22 @@
     (narrow-to-region beg end)))
 
 (defun ess-roxy-fill-field ()
-  "Fill the current roxygen field."
+  "Fill the current paragraph in the current roxygen field."
   (interactive)
   (if (ess-roxy-entry-p)
       (save-excursion
 	(let ((beg (ess-roxy-beg-of-field))
 	      (end (ess-roxy-end-of-field))
-	      (fill-prefix (concat ess-roxy-str " ")))
-	  (fill-region beg end nil t)))))
+	      (fill-prefix (concat ess-roxy-str " "))
+	      (beg-par (point-min))
+	      (end-par (point-max)))
+	  (save-excursion 
+	    (if (re-search-backward (concat "^" ess-roxy-str " *$") beg t)
+		(setq beg-par (match-end 0))))
+	  (save-excursion
+	    (if (re-search-forward (concat "^" ess-roxy-str " *$") end t)
+		(setq end-par (- (match-beginning 0) 1))))
+	  (fill-region (max beg beg-par) (min end end-par))))))
 
 (defun ess-roxy-goto-func-def ()
   "put point at start of function either that the point is in or
@@ -406,7 +430,7 @@ point is"
 		    (string-match "[^[:space:]]*" args-text)
 		    (setq arg-name (match-string 0 args-text))
 		    (setq desc (replace-regexp-in-string
-				(concat "^" arg-name " *") "" args-text))
+				(concat "^" (regexp-quote arg-name) " *") "" args-text))
 		    (setq args (cons (list (concat arg-name)
 					   (concat desc)) args))))
 	      (forward-line -1))
@@ -421,10 +445,13 @@ string. Convenient for editing example fields."
   (condition-case nil
       (if (not (ess-roxy-mark-active))
   	  (error "region is not active")))
+  (ess-roxy-roxy-region beg end (ess-roxy-entry-p)))
+
+(defun ess-roxy-roxy-region (beg end &optional on)
   (save-excursion
     (let (RE to-string)
       (narrow-to-region beg (- end 1))
-      (if (ess-roxy-entry-p)
+      (if on
 	  (progn (setq RE (concat "^" ess-roxy-str " *"))
 		 (setq to-string ""))
 	(setq RE "^")
@@ -512,11 +539,11 @@ facilitate saving that file."
   (interactive)
   (save-excursion
     (goto-char (point-min))
-    (while (search-forward ess-roxy-str (point-max) t 1)
-      (if (not (hs-already-hidden-p))
-	  (hs-hide-block))
-      (goto-char (ess-roxy-end-of-entry))
-      (forward-line 1))))
+      (while (re-search-forward (concat "^" ess-roxy-str) (point-max) t 1)
+	(if (not (hs-already-hidden-p))
+	    (hs-hide-block))
+	(goto-char (ess-roxy-end-of-entry))
+	(forward-line 1))))
 
 (defun ess-roxy-previous-entry ()
   "Go to beginning of previous Roxygen entry. "

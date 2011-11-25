@@ -69,7 +69,7 @@
 (defvar smart-operator-double-space-docs t
   "Enable double spacing of . in document lines - e,g, type '.' => get '.  '")
 
-(defvar smart-operator-docs t
+(defvar smart-operator-docs nil
   "Enable smart-operator in strings and comments")
 
 ;;;###autoload
@@ -91,16 +91,19 @@
 (defvar smart-operator-list
   '("=" "<" ">" "%" "+" "-" "*" "/" "&" "|" "!" ":" "?" "," "."))
 
-(defun smart-operator-insert (op &optional only-where)
+(defun smart-operator-insert (op &optional only-where newline-&-indent)
   "See `smart-operator-insert-1'."
   (delete-horizontal-space)
   (cond ((and (smart-operator-lispy-mode?)
-           (not (smart-operator-document-line?)))
+              (not (smart-operator-document-line?)))
          (smart-operator-lispy op))
-        ((not smart-operator-docs)
+        ((and
+          (not smart-operator-docs)
+          (smart-operator-document-line?))
          (smart-operator-insert-1 op 'middle))
         (t
-         (smart-operator-insert-1 op only-where))))
+         (smart-operator-insert-1 op only-where)))
+  (if newline-&-indent (newline-and-indent)))
 
 (defun smart-operator-insert-1 (op &optional only-where)
   "Insert operator OP with surrounding spaces.
@@ -185,6 +188,13 @@ so let's not get too insert-happy."
            (smart-operator-insert ":" 'middle)))
         ((memq major-mode '(haskell-mode))
          (smart-operator-insert ":"))
+        ((memq major-mode '(clojure-mode))
+         (smart-operator-insert ":" 'before))
+        ((and (memq major-mode '(python-mode))
+              (looking-back "\\(if\\|while\\|def\\|class\\|except\\|for\\|try\\|else\\).*"))
+         (smart-operator-insert ":" 'middle t))
+        ((memq major-mode '(ruby-mode erlang-mode))
+         (insert ":"))
         (t
          (smart-operator-insert ":" 'after))))
 
@@ -360,7 +370,7 @@ so let's not get too insert-happy."
   ;; get entered as foo(baz=bar)
   (cond ((and (memq major-mode '(python-mode))
               (looking-back "\([a-z]+"))
-         (insert "="))
+         (insert " ="))
         (t
          (smart-operator-insert "="))))
 

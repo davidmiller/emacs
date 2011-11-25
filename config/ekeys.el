@@ -35,6 +35,7 @@
        ;; Buffer management
        ("\C-x\C-b" 'ibuffer)
        ("\C-c\#" 'ido-find-file-other-window)
+       ("\C-cb" 'ido-switch-buffer-other-window)
        ((kbd "<f5>") 'revert-buffer)
        ("\C-c\C-w" 'jump-to-register)
        ([M-left] 'windmove-left) ; move to left windnow
@@ -92,6 +93,9 @@
        ;; Dotfiles
        ("\C-c\C-r" 'x-reload-dot-emacs)
        ("\C-c\C-e" '.emacs)
+
+       ;Programming
+       ((kbd "<f7>") 'compile)
 
        ))
 
