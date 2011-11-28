@@ -38,14 +38,14 @@
 (defun mat2nix (&optional here)
   "Convert the Matlab time at point to a unix ts and echo in the minibuffer"
   (interactive "P")
-  (let ((msg (number-to-string (mat-2-utc (float-at-point)))))
+  (let ((msg (concat " " (number-to-string (mat-2-utc (float-at-point))))))
     (message msg)
     (if here (eol-insert msg))))
 
 (defun mat2dt (&optional here)
   "Convert the Matlab time at point to a date string and echo in the minibuffer"
   (interactive "P")
-  (let ((msg (date-ud (number-to-string (mat-2-utc (float-at-point))))))
+  (let ((msg (message (date-ud (number-to-string (mat-2-utc (float-at-point)))))))
     (message msg)
     (if here (eol-insert msg))))
 

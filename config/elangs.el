@@ -15,19 +15,48 @@
 (require-many 'flymake
               'flymake-cursor ; Warnings in minibuffer when point on Error
               'rainbow-mode ; Background hex colour declarations with their values
-              'emodes)
+              'emodes
+              'test-case-mode)
 
 (defmacro defext (regexp mode)
   "Set the auto mode for files whose extension matches REGEXP to MODE"
   `(add-to-list 'auto-mode-alist '(,regexp . ,mode)))
 
 ;; Individual language requires
-(require-many ;'elispish
+(require-many 'elispish
               'elua
-              'epython
+;              'epython
               'ejavascript)
 
 (global-font-lock-mode t)
+
+(defvar prj-keybindings '(
+  ([f12]         eproject-setup-toggle  always)
+  ([s-right]    eproject-nextfile)
+  ([s-left]     eproject-prevfile)
+  ([C-f12]       eproject-dired)
+  )
+  "Key bindings in eproject"
+  )
+
+
+;;
+;; Python with PDEE
+;;
+(setq pdee-load-all nil)
+(defvar pdee-install-dir (sitedir "pdee/"))
+(require 'pdee-init)
+(require-many 'pdee-init
+              'pdee-python
+              'pdee-completion
+              'pdee-editing)
+;; (unload-feature 'python t) ; HACK - force PSF python-mode
+;; (when (featurep 'python-mode) (unload-feature 'python-mode t))
+;; (require 'python-mode (sitedir "pdee/python-modes/python-mode-el/python-mode.el"))
+;; (defext "\\.py\\'" python-mode)
+
+(setq global-hl-line-mode nil)
+(global-linum-mode -1)
 
 ;;
 ;; Minor customisations
@@ -139,4 +168,3 @@
 
 ;; Code ends
 (provide 'elangs)
-

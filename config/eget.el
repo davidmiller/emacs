@@ -42,7 +42,8 @@ creating an `el-get-sources' variable"
   :github
   ;; Firstly let's get my packages
   ((:user davidmiller
-          emodes pony-mode lintnode come-fly thrift-mode dizzee fabmacs)
+          emodes pony-mode lintnode come-fly thrift-mode dizzee fabmacs
+          pdee)
    ;;
    ;; Now we move on to 3rd party packlages from Github
    ;;
@@ -60,8 +61,6 @@ creating an `el-get-sources' variable"
           haml-mode)
    (:user nschum
           full-ack)
-   (:user pdee
-          pdee)
    (:user technomancy
           clojure-mode
           ;; Get slime from this github mirror until Clojure
@@ -107,4 +106,3 @@ creating an `el-get-sources' variable"
 ;; Code ends
 
 (provide 'eget)
-
