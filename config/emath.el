@@ -68,5 +68,29 @@ decimal digit 0 through 9 with an optional starting minus symbol
   "Return the float at point"
   (thing-at-point 'float))
 
+;;
+;; Performing Math
+;;
+;; Commentary:
+;;
+;; Often we work with numerical data in buffers and would like a convenient
+;; way of operating on them within Emacs. Provide utility functions for
+;; performing arbitrary calculations on numbers at point
+;;
+
+(defun math-at-point (&optional here)
+  "Perform an arbitrary lisp expression on the number at point"
+  (interactive "P")
+  (let* ((number (float-at-point))
+         (initial-text (format "( %s)"  number))
+         (initial-cons (cons initial-text 2))
+         (sexp (read-minibuffer "Expression: "
+                                initial-cons)) ; input
+         (result (format " %d" (eval sexp))))
+    (message result)
+    (if here (save-excursion
+               (move-end-of-line nil)
+               (insert result)))))
+
 (provide 'emath)
 ;; Code ends
