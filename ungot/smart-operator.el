@@ -369,8 +369,8 @@ so let's not get too insert-happy."
   ;; PEP 8 dictates that KW args or default parameters
   ;; get entered as foo(baz=bar)
   (cond ((and (memq major-mode '(python-mode))
-              (looking-back "\([a-z]+"))
-         (insert " ="))
+              (looking-back "\([a-zA-Z0-9, =]+"))
+         (insert "="))
         (t
          (smart-operator-insert "="))))
 

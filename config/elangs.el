@@ -43,9 +43,7 @@
 ;;
 ;; Python with PDEE
 ;;
-(setq pdee-load-all nil)
 (defvar pdee-install-dir (sitedir "pdee/"))
-(require 'pdee-init)
 (require-many 'pdee-init
               'pdee-python
               'pdee-completion
@@ -54,22 +52,17 @@
 ;; (when (featurep 'python-mode) (unload-feature 'python-mode t))
 ;; (require 'python-mode (sitedir "pdee/python-modes/python-mode-el/python-mode.el"))
 ;; (defext "\\.py\\'" python-mode)
-
+(pdee-setup-checker "pyflakes %f")
+(pdee-django-snippets)
+(pdee-setup-ipython)
+(yas/load-directory (emacsdir "snippets"))
+(pdee-set-mode)
 (setq global-hl-line-mode nil)
 (global-linum-mode -1)
 
 ;;
 ;; Minor customisations
 ;;
-
-;;;; Ruby
-(require 'feature-mode)
-(defext "\.feature$" feature-mode)
-
-(require 'rails-autoload)
-(add-hook 'ruby-mode-hook '(lambda ()
-                             (set-mode-style ide-style)))
-(require 'come-fly)
 
 ;;;;  PHP
 (load-library "php-mode")
@@ -80,6 +73,8 @@
 (defext "\\.erl\\'" erlang-mode)
 (add-to-list 'erlang-mode-hook '(lambda ()
                                   (set-mode-style ide-style)))
+
+(defext "\\Rakefile\\'" 'ruby-mode)
 
 ;;
 ;; c++
@@ -153,7 +148,9 @@
 (require 'csharp-mode)
 
 (defun drm-csharp-hook ()
-  (autopair-mode))
+  (autopair-mode)
+  (hs-minor-mode))
+
   ;; (local-set-key (kbd ";") (lambda (command)
   ;;                            (insert ";")
   ;;                            (newline-and-indent))))
@@ -165,6 +162,7 @@
 ;; R
 ;;
 (load (sitedir "ess/lisp/ess-site.el"))
+
 
 ;; Code ends
 (provide 'elangs)

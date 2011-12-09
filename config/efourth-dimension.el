@@ -55,7 +55,9 @@
 ;; Commentary:
 ;;
 ;; These functions relate to specific actions to be performed on files
-;; matching a fixed format. Unlikely to be of general use.
+;; matching a fixed format that I happen to deal with at work.
+;;
+;; Unlikely to be of general use.
 ;;
 
 (defun add2t0 (&optional here)

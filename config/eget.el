@@ -61,6 +61,8 @@ creating an `el-get-sources' variable"
           haml-mode)
    (:user nschum
           full-ack)
+   (:user senny
+          rvm.el)
    (:user technomancy
           clojure-mode
           ;; Get slime from this github mirror until Clojure
