@@ -77,7 +77,6 @@
                  '(newline-mark 10 [182 10]))) ; newlne, ¶)
 
 (setq whitespace-line-column 180)
-(global-whitespace-mode t)
 
 (defun pretty-lambdas ()
     (font-lock-add-keywords
