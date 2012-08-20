@@ -25,40 +25,11 @@
 ;; Individual language requires
 (require-many 'elispish
               'elua
-;              'epython
+              'epython
+              'eruby
               'ejavascript)
 
 (global-font-lock-mode t)
-
-(defvar prj-keybindings '(
-  ([f12]         eproject-setup-toggle  always)
-  ([s-right]    eproject-nextfile)
-  ([s-left]     eproject-prevfile)
-  ([C-f12]       eproject-dired)
-  )
-  "Key bindings in eproject"
-  )
-
-
-;;
-;; Python with PDEE
-;;
-(defvar pdee-install-dir (sitedir "pdee/"))
-(require-many 'pdee-init
-              'pdee-python
-              'pdee-completion
-              'pdee-editing)
-;; (unload-feature 'python t) ; HACK - force PSF python-mode
-;; (when (featurep 'python-mode) (unload-feature 'python-mode t))
-;; (require 'python-mode (sitedir "pdee/python-modes/python-mode-el/python-mode.el"))
-;; (defext "\\.py\\'" python-mode)
-(pdee-setup-checker "pyflakes %f")
-(pdee-django-snippets)
-(pdee-setup-ipython)
-(yas/load-directory (emacsdir "snippets"))
-(pdee-set-mode)
-(setq global-hl-line-mode nil)
-(global-linum-mode -1)
 
 ;;
 ;; Minor customisations
@@ -73,8 +44,6 @@
 (defext "\\.erl\\'" erlang-mode)
 (add-to-list 'erlang-mode-hook '(lambda ()
                                   (set-mode-style ide-style)))
-
-(defext "\\Rakefile\\'" 'ruby-mode)
 
 ;;
 ;; c++
@@ -99,6 +68,7 @@
   (auto-fill-mode)
   (c-toggle-auto-hungry-state 1)
   (set-mode-style ide-style)
+  (whitespace-mode nil)
   (local-set-key "\C-c\C-c" 'c-compile))
 (kbd "\C-c<down>")
 (add-hook 'c++-mode-hook 'my-c++-mode-hook)
@@ -141,6 +111,7 @@
 (require 'clojure-mode)
 (font-lock-add-keywords 'clojure-mode
   '(("true" . font-lock-builtin-face)))
+(defext "\\.cljs\\'" clojure-mode)
 
 ;;
 ;; C#
@@ -163,6 +134,10 @@
 ;;
 (load (sitedir "ess/lisp/ess-site.el"))
 
-
+;;;
+;;; Haml
+;;;
+(require 'haml-mode)
+(defext "\\.haml\\'" haml-mode)
 ;; Code ends
 (provide 'elangs)
