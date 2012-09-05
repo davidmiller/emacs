@@ -29,7 +29,13 @@
   (which-func-mode t)
   (pretty-lambdas)
   (paredit-mode +1)
-  (eldoc-mode t))
+  (eldoc-mode t)
+  (whitespace-mode t)
+  (gset-key (
+             ([M-left] 'windmove-left)
+             ([M-right] 'windmove-right)
+             ([M-up] 'windmove-up)
+             ([M-down] 'windmove-down))))
 
 
 (add-hook 'lisp-mode-hook 'lispish-hook)
