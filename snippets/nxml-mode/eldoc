@@ -1,0 +1,12 @@
+#contributor : David Miller <david@deadpansincerity.com>
+#name : <xs:element with documentation>
+# key : eldoc
+# --
+<xs:element name="$1" type="$2" maxOccurs="$3" minOccurs="$4">
+    <xs:annotation>
+        <xs:documentation>
+            $5
+        </xs:documentation>
+    </xs:annotation>
+</xs:element>
+$0

@@ -1,0 +1,6 @@
+#contributor : David Miller <david@deadpansincerity.com>
+#name : <xs:element >
+# key : el
+# --
+<xs:element name="$1" type="$2" maxOccurs="$3" minOccurs="$4" />
+    $0

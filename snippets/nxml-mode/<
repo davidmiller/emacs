@@ -1,0 +1,7 @@
+#contributor : David Miller <david@deadpansincerity.com>
+#name : <foo> </foo>
+# key : <
+# --
+<$1>
+    $0
+</$1>
