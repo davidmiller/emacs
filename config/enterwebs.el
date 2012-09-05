@@ -10,7 +10,7 @@
 ;;
 ;; Module level requires
 ;;
-(require 
+(require
  'mule             ;; See NONSENSE
  'yaoddmuse)       ;; Wiki editing
 
@@ -18,18 +18,18 @@
  browse-url-browser-function 'browse-url-generic
  browse-url-generic-program "chrome")
 
-;; 
+;;
 ;; w3m
-;; 
+;;
 ;; Commentary:
-;; 
+;;
 ;; Yet to get this functioning nicely on Windows,
 ;; so special-case the platform for now
 ;;
 ;; TODO:
-;; 
+;;
 ;; Sort out installing x-platform
-;; 
+;;
 
 (ifhost munch
 	(progn
