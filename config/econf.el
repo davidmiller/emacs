@@ -16,7 +16,9 @@
 ;;
 ;; Module level dependencies
 ;;
-(require 'delsel)
+(require-many
+ 'compile
+ 'delsel)
 
 ;;
 ;; Sub-configuration packages
@@ -32,14 +34,7 @@
 
 ;; Dizzee package - Managing projects and supbrocesses
 (require 'dizzee)
-
-;; (dz-defservice onzo-backend "~/src/onzo/backend/lib/backend_server" :port 8080)
-;; (dz-defservice onzo-static "~/src/onzo/thinclient/browser/static.py":port 4567)
-
-;; (dz-defservice onzo-client "~/src/onzo/client/src/client/run_client_sse.sh"
-;;                :cd '.)
-
-;; ;(dz-defservice onzo-sseweb "~/src/onzo/sseweb/onzo_pss/manage.py" (list "runserver") 8000)
+(require 'onzo)
 
 (require 'fab)
 
@@ -113,7 +108,9 @@
 (setq ac-auto-start 2)
 (setq ac-ignore-case nil)
 (setq ac-quick-help-delay 1)
-(require 'yasnippet)
+;(when (featurep 'yasnippet) (unload-feature 'yasnippet t))
+(require 'yasnippet (sitedir "pdee/extensions/yasnippet/yasnippet"))
+;(require 'yasnippet)
 (setq yas/snippet-dirs (emacsdir "snippets"))
 (yas/initialize)
 (yas/load-directory (sitedir "yasnippet/snippets/text-mode"))
@@ -274,5 +271,21 @@
                 (dns-mode))))
 
 
-;; ;; Code ends
+;;; Programming helpers:
+(setq compile-command "rake ")
+
+
+;;; Music via MPD
+(autoload 'mingus "mingus-stays-home" nil t)
+;;;
+
+
+;;
+;; Setup puppet-mode for autoloading
+;;
+(autoload 'puppet-mode "puppet-mode" "Major mode for editing puppet manifests")
+
+(add-to-list 'auto-mode-alist '("\\.pp$" . puppet-mode))
+
+;; ;; code ends
 (provide 'econf)
