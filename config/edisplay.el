@@ -43,7 +43,7 @@ For anything. Seriously."
 
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1)) ;; Don't show a scroll bar
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1)) ;; Remove icons from gtk menu
-(if (fboundp 'menu-bar-mode) (menu-bar-mode 1))  ;; Keep the menu.
+(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))  ;; Keep the menu.
 (column-number-mode 1);; Enable Colum numbering
 (require 'bar-cursor)
 (bar-cursor-mode t) ;; Put the cursor on a diet
