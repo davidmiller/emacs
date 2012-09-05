@@ -13,4 +13,6 @@
           (lambda ()
             (set-mode-style ide-style)))
 
+(require 'come-fly)
+
 (provide 'eruby)
