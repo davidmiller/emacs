@@ -43,12 +43,14 @@ creating an `el-get-sources' variable"
   ;; Firstly let's get my packages
   ((:user davidmiller
           emodes pony-mode lintnode come-fly thrift-mode dizzee fabmacs
-          pdee)
+          )
    ;;
    ;; Now we move on to 3rd party packlages from Github
    ;;
    (:user ananthakumaran
           monky)
+   (:user capitaomorte
+	  yasnippet)
    (:user dima-exe
           emacs-rails-reloaded)
    (:user immerrr
@@ -61,6 +63,14 @@ creating an `el-get-sources' variable"
           haml-mode)
    (:user nschum
           full-ack)
+   (:user pdee
+          pdee)
+   (:user pft
+          mingus)
+   (:user paradoxxxzero
+          jinja2-mode)
+   (:user puppetlabs
+          puppet-syntax-emacs)
    (:user senny
           rvm.el)
    (:user technomancy
@@ -93,9 +103,9 @@ creating an `el-get-sources' variable"
   (:name python-mode
          :type bzr
          :url "lp:python-mode")
-  (:name yasnippet
-         :type svn
-         :url "http://yasnippet.googlecode.com/svn/trunk/")
+  ;; (:name yasnippet
+  ;;        :type svn
+  ;;        :url "http://yasnippet.googlecode.com/svn/trunk/")
    )
 
 (setq my-packages
