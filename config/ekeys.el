@@ -47,6 +47,7 @@
        ((kbd "S-C-<down>") 'shrink-window)
        ((kbd "S-C-<up>") 'enlarge-window)
        ("\C-cR" 'rename-current-file-or-buffer)
+       ("\C-x\C-d" 'ido-find-file) ; Alias for sloppy chords from C-xC-f
 
        ;; Version Control
        ("\C-c\hs" 'monky-status)
@@ -96,6 +97,12 @@
 
        ;Programming
        ((kbd "<f7>") 'compile)
+
+       ;; Music
+       ((kbd  "C-s-SPC") 'mingus-toggle)
+       ((kbd  "C-s-n") 'mingus-next)
+       ((kbd  "C-s-p") 'mingus-prev)
+       ((kbd  "C-s-b") 'mingus-browse)
 
        ))
 

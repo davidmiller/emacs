@@ -23,10 +23,10 @@ Define the function within a lexical context that contains the variables `name' 
        (defun ,(intern name-str) ,args
          ,@body))))
 
-(macfun iotop
-        ((interactive)
-         (ansi-term name-str name-str)
-         (switch-to-buffer (format "*%s*" name-str))))
+;; (macfun iotop
+;;         ((interactive)
+;;          (ansi-term name-str name-str)
+;;          (switch-to-buffer (format "*%s*" name-str))))
 
 ;;
 ;; Shell programs in buffers
@@ -70,7 +70,9 @@ Define the function within a lexical context that contains the variables `name' 
 (dotfile .conkyrc)
 (dotfile .ssh "~/.ssh/config")
 (dotfile .screenrc)
+(dotfile .thpppt)
 (dotfile .xsession)
+(dotfile .xbindkeysrc)
 
 (defun rename-current-file-or-buffer ()
   (interactive)
