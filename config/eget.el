@@ -61,6 +61,8 @@ creating an `el-get-sources' variable"
           magit)
    (:user nex3
           haml-mode)
+   (:user michaelklishin
+          cucumber.el)
    (:user nschum
           full-ack)
    (:user pdee

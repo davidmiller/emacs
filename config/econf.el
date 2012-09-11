@@ -223,6 +223,10 @@
 (autoload 'test-case-compilation-finish-run-all "test-case-mode")
 (add-hook 'find-file-hook 'enable-test-case-mode-if-test)
 
+;; BDD
+(require 'feature-mode)
+(defext "\\.feature\\'" feature-mode)
+
 ;; Session Management
 (desktop-save-mode t)
 

@@ -18,10 +18,6 @@
               'emodes
               'test-case-mode)
 
-(defmacro defext (regexp mode)
-  "Set the auto mode for files whose extension matches REGEXP to MODE"
-  `(add-to-list 'auto-mode-alist '(,regexp . ,mode)))
-
 ;; Individual language requires
 (require-many 'elispish
               'elua

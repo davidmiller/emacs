@@ -214,5 +214,9 @@ be a real filename, not a path."
   (message (shell-command-to-string (concat "date -ud @"
                                             (word-at-point)))))
 
+(defmacro defext (regexp mode)
+  "Set the auto mode for files whose extension matches REGEXP to MODE"
+  `(add-to-list 'auto-mode-alist '(,regexp . ,mode)))
+
 ;; Code ends
 (provide 'efuncs)
