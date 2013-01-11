@@ -87,6 +87,7 @@
        ;; Comms
        ("\C-cef" 'erc-freenode)
        ("\C-cff" 'browse-url)
+       ("\C-cj" 'webjump)
 
        ;; Lisp
        ("\C-c\m" 'pp-macroexpand-last-sexp)
@@ -105,6 +106,9 @@
        ((kbd  "C-s-b") 'mingus-browse)
 
        ))
+
+(global-set-key [remap goto-line] 'goto-line-with-feedback)
+;(define-key magit-status-mode-map (kbd "q") 'magit-quit-session)
 
 ;;
 ;; Windows specific consistency rebindings

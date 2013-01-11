@@ -4,7 +4,7 @@
 # contributor: David Miller <david@deadpansinceity.com>
 # --
 def test${1:Something}(self):
-    """ $2 """
+    " $2 "
     $0pass
 
 

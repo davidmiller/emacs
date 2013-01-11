@@ -30,6 +30,7 @@
  'emath             ;; Math utilities
  'enterwebs         ;; Interacting with a World Wide Web
  'efourth-dimension ;; Date/Time utilities
+ 'evc               ;;
  )
 
 ;; Dizzee package - Managing projects and supbrocesses

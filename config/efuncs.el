@@ -218,5 +218,15 @@ be a real filename, not a path."
   "Set the auto mode for files whose extension matches REGEXP to MODE"
   `(add-to-list 'auto-mode-alist '(,regexp . ,mode)))
 
+
+(defun goto-line-with-feedback ()
+  "Show line numbers temporarily, while prompting for the line number input"
+  (interactive)
+  (unwind-protect
+      (progn
+        (linum-mode 1)
+        (goto-line (read-number "Goto line: ")))
+    (linum-mode -1)))
+
 ;; Code ends
 (provide 'efuncs)

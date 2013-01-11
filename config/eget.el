@@ -50,9 +50,11 @@ creating an `el-get-sources' variable"
    (:user ananthakumaran
           monky)
    (:user capitaomorte
-	  yasnippet)
-   (:user dima-exe
-          emacs-rails-reloaded)
+          yasnippet)
+   (:user eschulte
+          rinari)
+   ;; (:user dima-exe
+   ;;        emacs-rails-reloaded)
    (:user immerrr
           lua-mode)
    (:user m2ym
@@ -63,6 +65,8 @@ creating an `el-get-sources' variable"
           haml-mode)
    (:user michaelklishin
           cucumber.el)
+   (:user nonsequitur
+          inf-ruby)
    (:user nschum
           full-ack)
    (:user pdee
@@ -105,6 +109,9 @@ creating an `el-get-sources' variable"
   (:name python-mode
          :type bzr
          :url "lp:python-mode")
+
+  ;; (:name rinari
+  ;;        :type elpa)
   ;; (:name yasnippet
   ;;        :type svn
   ;;        :url "http://yasnippet.googlecode.com/svn/trunk/")

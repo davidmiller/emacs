@@ -3,14 +3,14 @@
 # group: Unit Testing
 # contributor: David Miller <david@deadpansinceity.com>
 # --
-class ${1:Name}TestCase(${2:TestCase}):
+class ${1:Name}TestCase(${2:unittest.TestCase}):
     def setUp(self):
         pass
 
-    def test${3:Something}(self):
-        """ """
-        $0pass
-        
     def tearDown(self):
         pass
+
+    def test${3:Something}(self):
+        ""
+        $0pass
 

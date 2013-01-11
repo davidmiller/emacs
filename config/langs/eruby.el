@@ -13,6 +13,8 @@
           (lambda ()
             (set-mode-style ide-style)))
 
+;; (require 'rails-autoload)y
+
 (require 'come-fly)
 
 (provide 'eruby)
