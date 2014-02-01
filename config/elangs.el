@@ -41,6 +41,11 @@
 (add-to-list 'erlang-mode-hook '(lambda ()
                                   (set-mode-style ide-style)))
 
+;;;
+;;; Elixir
+;;;
+(require 'elixir-mode)
+
 ;;
 ;; c++
 ;;
@@ -118,10 +123,6 @@
   (autopair-mode)
   (hs-minor-mode))
 
-  ;; (local-set-key (kbd ";") (lambda (command)
-  ;;                            (insert ";")
-  ;;                            (newline-and-indent))))
-
 (add-hook 'csharp-mode 'drm-csharp-hook)
 
 
@@ -135,5 +136,14 @@
 ;;;
 (require 'haml-mode)
 (defext "\\.haml\\'" haml-mode)
+
+;;;
+;;; Yaml
+;;;
+
+(require 'yaml-mode)
+(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+
+
 ;; Code ends
 (provide 'elangs)
