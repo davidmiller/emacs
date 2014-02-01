@@ -15,7 +15,7 @@
 (setq lintnode-excludes (list 'nomen 'undef 'plusplus 'onevar 'white))
 (add-hook 'js-mode-hook
           (lambda ()
-            (lintnode-hook)
+            ;; (lintnode-hook)
             (set-mode-style ide-style)
             (local-set-key (kbd "C-M-;"))))
 
