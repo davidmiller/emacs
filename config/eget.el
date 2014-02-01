@@ -49,22 +49,25 @@ creating an `el-get-sources' variable"
    ;;
    (:user ananthakumaran
           monky)
+   (:user auto-complete
+          auto-complete)
    (:user capitaomorte
           yasnippet)
    (:user eschulte
+          rhtml
           rinari)
-   ;; (:user dima-exe
-   ;;        emacs-rails-reloaded)
+   (:user elixir-lang
+          emacs-elixir)
    (:user immerrr
           lua-mode)
-   (:user m2ym
-          auto-complete)
    (:user magit
           magit)
-   (:user nex3
-          haml-mode)
+   (:user magnars
+          multiple-cursors.el)
    (:user michaelklishin
           cucumber.el)
+   (:user nex3
+          haml-mode)
    (:user nonsequitur
           inf-ruby)
    (:user nschum
@@ -84,6 +87,10 @@ creating an `el-get-sources' variable"
           ;; Get slime from this github mirror until Clojure
           ;; sort out numerous infrastructure issues
           slime)
+   (:user tkf
+          emacs-jedi)
+   (:user yoshiki
+          yaml-mode)
    )
    ;;
    ;; Having dealt with source-specific packages,
