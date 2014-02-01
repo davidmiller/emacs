@@ -32,8 +32,12 @@
 (erc-connect erc-freenode "irc.freenode.net" 6667 "davidmiller")
 
 (setq erc-autojoin-channels-alist
-      '(("freenode.net" "#emacs" "#pony-mode" "#celery")))
+      '(("freenode.net" "#emacs" "#pony-mode" "#nhshackday" "#ohc_dev")))
  (erc-spelling-mode 1)
+
+    (setq erc-log-channels-directory "~/.erc/logs/")
+(defadvice save-buffers-kill-emacs (before save-logs (arg) activate)
+(save-some-buffers t (lambda () (when (eq major-mode 'erc-mode) t))))
 
 ;;
 ;; Blogging
