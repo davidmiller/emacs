@@ -80,6 +80,7 @@
 (load-library "light-symbol")
 (require 'autopair)
 
+(add-load-dir (sitedir "auto-complete/lib"))
 (require 'auto-complete-config)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
@@ -291,6 +292,16 @@
 (autoload 'puppet-mode "puppet-mode" "Major mode for editing puppet manifests")
 
 (add-to-list 'auto-mode-alist '("\\.pp$" . puppet-mode))
+
+;;; multiple cursors
+(require 'multiple-cursors)
+
+
+(require 'package)
+(add-to-list 'package-archives
+    '("marmalade" .
+      "http://marmalade-repo.org/packages/"))
+(package-initialize)
 
 ;; ;; code ends
 (provide 'econf)
