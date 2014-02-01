@@ -65,6 +65,7 @@
 
        ;; Editing
 
+       ((kbd "<insert>") 'replace-string)
        ("\C-w" 'backward-kill-word)
        ("\C-x\C-k" 'kill-region)
        ("\C-c\C-k" 'kill-region)
@@ -74,6 +75,7 @@
         #'(lambda () (interactive) (previous-line) (move-end-of-line nil) (newline-and-indent)))
        ((kbd "C-M-j")
         #'(lambda () (interactive) (move-end-of-line nil) (newline-and-indent)))
+       ((kbd "C-S-c C-S-c") 'mc/edit-lines)
 
        ;; Save excursion inserts
        ((kbd "C-M-;") 'colonize)
