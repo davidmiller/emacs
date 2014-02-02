@@ -1,0 +1,8 @@
+#name : defmodule
+#group: general
+# --
+defmodule $1 do
+
+  $0
+
+end
