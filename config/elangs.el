@@ -45,6 +45,11 @@
 ;;; Elixir
 ;;;
 (require 'elixir-mode)
+(defun ex-hook ()
+  "Initializations for Elixir"
+  (autopair-mode))
+
+(add-hook 'elixir-mode-hook 'ex-hook)
 
 ;;
 ;; c++
