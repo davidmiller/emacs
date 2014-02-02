@@ -1,4 +1,4 @@
-;;
+;
 ;; econf.el - Emacs Configuration
 ;;
 ;; Commentary:
@@ -80,14 +80,20 @@
 (load-library "light-symbol")
 (require 'autopair)
 
+
+;(when (featurep 'yasnippet) (unload-feature 'yasnippet t))
+(require 'yasnippet (sitedir "pdee/extensions/yasnippet/yasnippet"))
+;(require 'yasnippet)
+(setq yas/snippet-dirs (emacsdir "snippets"))
+(yas/initialize)
+(yas/load-directory (sitedir "yasnippet/snippets/text-mode"))
+
+
 (add-load-dir (sitedir "auto-complete/lib"))
 (require 'auto-complete-config)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-;; (setq-default ac-sources '(ac-source-words-in-same-mode-buffers
-;;                            ac-source-yasnippet
-;;                            ac-source-filename
-;;                            ac-source-files-in-current-dir))
+
 (add-to-list 'ac-dictionary-directories (sitedir "auto-complete/dict"))
 
 (ac-config-default)
@@ -95,9 +101,19 @@
 (add-to-list 'ac-modes 'erlang-shell-mode)
 (add-to-list 'ac-modes 'thrift-mode)
 (add-to-list 'ac-modes 'csharp-mode)
-(setq-default ac-sources (add-to-list 'ac-sources 'ac-dictionary 'ac-source-yasnippet))
+(add-to-list 'ac-modes 'elixir-mode)
+
+
+(setq-default ac-sources '(ac-source-words-in-same-mode-buffers
+                           ac-source-yasnippet
+                           ac-source-filename
+                           ac-source-abbrev
+                           ac-source-files-in-current-dir))
+
+
 (add-hook 'emacs-lisp-mode-hook
           (lambda () (add-to-list 'ac-sources 'ac-source-symbols)))
+
 (add-hook 'auto-complete-mode-hook
           (lambda ()
             ()))
@@ -110,12 +126,10 @@
 (setq ac-auto-start 2)
 (setq ac-ignore-case nil)
 (setq ac-quick-help-delay 1)
-;(when (featurep 'yasnippet) (unload-feature 'yasnippet t))
-(require 'yasnippet (sitedir "pdee/extensions/yasnippet/yasnippet"))
-;(require 'yasnippet)
-(setq yas/snippet-dirs (emacsdir "snippets"))
-(yas/initialize)
-(yas/load-directory (sitedir "yasnippet/snippets/text-mode"))
+(ac-set-trigger-key "TAB")
+
+
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;  buffer Management ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
