@@ -1,0 +1,13 @@
+#name : router
+#group: dynamo
+# --
+defmodule $1Router do
+  use Dynamo.Router
+
+  prepare do
+
+  end
+
+  $0
+
+end
