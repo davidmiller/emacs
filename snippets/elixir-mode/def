@@ -1,0 +1,6 @@
+#name : def
+#group: general
+# --
+def $1 do
+  $0
+end
