@@ -1,0 +1,6 @@
+#name : get
+#group: dynamo
+# --
+get "$1" do
+  $0
+end
