@@ -34,10 +34,12 @@
  )
 
 ;; Dizzee package - Managing projects and supbrocesses
-(require 'dizzee)
-(require 'onzo)
+;; TODO: Enable dizzee on OSX
+;;(require 'dizzee)
+;(require 'onzo)
 
-(require 'fab)
+;; TODO: Enable fab on OSX
+;; (require 'fab)
 
 (setq ring-bell-function 'ignore);; disable bell function
 (defalias 'yes-or-no-p 'y-or-n-p) ;; less typing for me
@@ -81,52 +83,55 @@
 (require 'autopair)
 
 
+;; TODO: enable yasnippet
+
 ;(when (featurep 'yasnippet) (unload-feature 'yasnippet t))
-(require 'yasnippet (sitedir "pdee/extensions/yasnippet/yasnippet"))
+;(require 'yasnippet (sitedir "pdee/extensions/yasnippet/yasnippet"))
 ;(require 'yasnippet)
-(setq yas/snippet-dirs (emacsdir "snippets"))
-(yas/initialize)
-(yas/load-directory (sitedir "yasnippet/snippets/text-mode"))
+;(setq yas/snippet-dirs (emacsdir "snippets"))
+;(yas/initialize)
+;(yas/load-directory (sitedir "yasnippet/snippets/text-mode"))
+
+;; TODO: enable auto-complete
+
+;;(add-load-dir (sitedir "auto-complete/lib"))
+;; (require 'auto-complete-config)
+;; (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 
-(add-load-dir (sitedir "auto-complete/lib"))
-(require 'auto-complete-config)
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+;; (add-to-list 'ac-dictionary-directories (sitedir "auto-complete/dict"))
+
+;; (ac-config-default)
+;; (add-to-list 'ac-modes 'erlang-mode)
+;; (add-to-list 'ac-modes 'erlang-shell-mode)
+;; (add-to-list 'ac-modes 'thrift-mode)
+;; (add-to-list 'ac-modes 'csharp-mode)
+;; (add-to-list 'ac-modes 'elixir-mode)
 
 
-(add-to-list 'ac-dictionary-directories (sitedir "auto-complete/dict"))
-
-(ac-config-default)
-(add-to-list 'ac-modes 'erlang-mode)
-(add-to-list 'ac-modes 'erlang-shell-mode)
-(add-to-list 'ac-modes 'thrift-mode)
-(add-to-list 'ac-modes 'csharp-mode)
-(add-to-list 'ac-modes 'elixir-mode)
+;; (setq-default ac-sources '(ac-source-words-in-same-mode-buffers
+;;                            ac-source-yasnippet
+;;                            ac-source-filename
+;;                            ac-source-abbrev
+;;                            ac-source-files-in-current-dir))
 
 
-(setq-default ac-sources '(ac-source-words-in-same-mode-buffers
-                           ac-source-yasnippet
-                           ac-source-filename
-                           ac-source-abbrev
-                           ac-source-files-in-current-dir))
+;; (add-hook 'emacs-lisp-mode-hook
+;;           (lambda () (add-to-list 'ac-sources 'ac-source-symbols)))
 
-
-(add-hook 'emacs-lisp-mode-hook
-          (lambda () (add-to-list 'ac-sources 'ac-source-symbols)))
-
-(add-hook 'auto-complete-mode-hook
-          (lambda ()
-            ()))
-;; (add-hook 'python-mode-hook
-;;           (lambda () (add-to-list 'ac-sources 'ac-source-ropemacs)))
-(global-auto-complete-mode t)
-;;                                         ;(ac-css-keywords-initialize)
-;;                                         ;(ac-set-trigger-key "C-c C-/")
-;;                                         ;(setq ac-auto-start nil)
-(setq ac-auto-start 2)
-(setq ac-ignore-case nil)
-(setq ac-quick-help-delay 1)
-(ac-set-trigger-key "TAB")
+;; (add-hook 'auto-complete-mode-hook
+;;           (lambda ()
+;;             ()))
+;; ;; (add-hook 'python-mode-hook
+;; ;;           (lambda () (add-to-list 'ac-sources 'ac-source-ropemacs)))
+;; (global-auto-complete-mode t)
+;; ;;                                         ;(ac-css-keywords-initialize)
+;; ;;                                         ;(ac-set-trigger-key "C-c C-/")
+;; ;;                                         ;(setq ac-auto-start nil)
+;; (setq ac-auto-start 2)
+;; (setq ac-ignore-case nil)
+;; (setq ac-quick-help-delay 1)
+;; (ac-set-trigger-key "TAB")
 
 
 
@@ -190,10 +195,11 @@
 (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
+;; TODO: enable magit and monky
 ;; Version Control
-(require-many
- 'magit  ;; Git interface
- 'monky) ;; Mercurial interface
+;; (require-many
+;;  'magit  ;; Git interface
+;;  'monky) ;; Mercurial interface
 
 
 ;; Programming - IDE stuff
@@ -216,7 +222,9 @@
                             (local-set-key [C-up] 'org-priority-up)))
 
 ;; Testing out remember-mode
-(org-remember-insinuate)
+
+;; TODO: Remember what this does. 
+;;(org-remember-insinuate)
 (setq org-directory "~/src/onzo/scratch/")
 (setq org-default-notes-file "~/src/onzo/scratch/notes.org")
 (setq remember-annotation-functions '(org-remember-annotation))
@@ -240,8 +248,9 @@
 (add-hook 'find-file-hook 'enable-test-case-mode-if-test)
 
 ;; BDD
-(require 'feature-mode)
-(defext "\\.feature\\'" feature-mode)
+;; TODO: Enable feature mode
+;; (require 'feature-mode)
+;; (defext "\\.feature\\'" feature-mode)
 
 ;; Session Management
 (desktop-save-mode t)
@@ -273,15 +282,15 @@
 (autoload 'ack-find-file "full-ack" nil t)
 (setq ack-executable (executable-find "ack-grep"))
 
-
-(when
-    (load
-     (expand-file-name (emacsdir "elpa/package.el")))
-  (setq package-user-dir (expand-file-name (emacsdir "/elpa")))
-  (add-to-list 'package-archives
-               '("marmalade" . "http://marmalade-repo.org/packages/"))
-  (package-initialize))
-(setq package-user-dir (expand-file-name (emacsdir "elpa")))
+;; TODO: Enable loading of packages - c.f. lower in this file and el-get
+;; (when
+;;     (load
+;;      (expand-file-name (emacsdir "elpa/package.el")))
+;;   (setq package-user-dir (expand-file-name (emacsdir "/elpa")))
+;;   (add-to-list 'package-archives
+;;                '("marmalade" . "http://marmalade-repo.org/packages/"))
+;;   (package-initialize))
+;; (setq package-user-dir (expand-file-name (emacsdir "elpa")))
 
 
 ;; Edit DNS records with sane highlighting and auto-increment serial
@@ -307,15 +316,17 @@
 
 (add-to-list 'auto-mode-alist '("\\.pp$" . puppet-mode))
 
+;; TODO: Enable multiple cursors
 ;;; multiple cursors
-(require 'multiple-cursors)
+;; (require 'multiple-cursors)
 
-
-(require 'package)
-(add-to-list 'package-archives
-    '("marmalade" .
-      "http://marmalade-repo.org/packages/"))
-(package-initialize)
+;; TODO: enable loading of packages
+;; 
+;; (require 'package)
+;; (add-to-list 'package-archives
+;;     '("marmalade" .
+;;       "http://marmalade-repo.org/packages/"))
+;;  (package-initialize)
 
 ;; ;; code ends
 (provide 'econf)
