@@ -46,7 +46,6 @@
 
 
 (provide 'color-theme-bluebulator)
-(color-theme-bluebulator)
 
 ;; My personal font-lock additions
 
