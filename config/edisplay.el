@@ -53,16 +53,17 @@ For anything. Seriously."
 ;;
 ;; Modeline customisations
 ;;
-(require 'diminish)
-(require 'rainbow-mode)
-(eval-after-load "light-symbol" '(diminish 'light-symbol-mode))
-(eval-after-load "flymake" '(diminish 'flymake-mode "F"))
-(eval-after-load "eldoc" '(diminish 'eldoc-mode "E"))
-(eval-after-load "yasnippet" '(diminish 'yas/minor-mode "Y"))
-(eval-after-load "autopair" '(diminish 'autopair-mode))
-(eval-after-load "smart-operator" '(diminish 'smart-operator-mode))
-(eval-after-load "whitespace" '(diminish 'global-whitespace-mode))
-(eval-after-load "whitespace" '(diminish 'rainbow-mode))
+;; TODO: Enable these on osx
+;; (require 'diminish)
+;; (require 'rainbow-mode)
+;; (eval-after-load "light-symbol" '(diminish 'light-symbol-mode))
+;; (eval-after-load "flymake" '(diminish 'flymake-mode "F"))
+;; (eval-after-load "eldoc" '(diminish 'eldoc-mode "E"))
+;; (eval-after-load "yasnippet" '(diminish 'yas/minor-mode "Y"))
+;; (eval-after-load "autopair" '(diminish 'autopair-mode))
+;; (eval-after-load "smart-operator" '(diminish 'smart-operator-mode))
+;; (eval-after-load "whitespace" '(diminish 'global-whitespace-mode))
+;; (eval-after-load "whitespace" '(diminish 'rainbow-mode))
 
 ;; Code ends
 (provide 'edisplay)
