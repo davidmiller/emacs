@@ -240,5 +240,13 @@ be a real filename, not a path."
         (clipboard-kill-region (point-min) (point-max)))
       (message filename))))
 
+
+;; Allow hash to be entered
+(defun insert-pound ()
+  "Inserts a pound into the buffer"
+  (insert "#"))
+
+
+
 ;; Code ends
 (provide 'efuncs)
