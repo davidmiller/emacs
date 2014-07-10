@@ -31,6 +31,8 @@
 ;; Definitions
 ;;
 
+
+;; TODO: Go through these in detail and decide whether we need them or not
 (gset-key (
        ;; Buffer management
        ("\C-x\C-b" 'ibuffer)
@@ -38,10 +40,18 @@
        ("\C-cb" 'ido-switch-buffer-other-window)
        ((kbd "<f5>") 'revert-buffer)
        ("\C-c\C-w" 'jump-to-register)
+       
+       ;; Linux has alt + direction, OSx has ESC + direction
        ([M-left] 'windmove-left) ; move to left windnow
        ([M-right] 'windmove-right) ; move to right window
        ([M-up] 'windmove-up) ; move to upper window
        ([M-down] 'windmove-down) ; move to downer window
+
+       ((kbd "ESC <left>") 'windmove-left) ; move to left windnow
+       ((kbd "ESC <right>") 'windmove-right) ; move to right window
+       ((kbd "ESC <up>") 'windmove-up) ; move to upper window
+       ((kbd "<ESC> <down>") 'windmove-down) ; move to downer window
+       
        ((kbd "S-C-<left>") 'shrink-window-horizontally)
        ((kbd "S-C-<right>") 'enlarge-window-horizontally)
        ((kbd "S-C-<down>") 'shrink-window)
@@ -66,9 +76,10 @@
        ;; Editing
 
        ((kbd "<insert>") 'replace-string)
-       ("\C-w" 'backward-kill-word)
-       ("\C-x\C-k" 'kill-region)
-       ("\C-c\C-k" 'kill-region)
+
+       ;; ("\C-w" 'backward-kill-word)
+       ;; ("\C-x\C-k" 'kill-region)
+       ;; ("\C-c\C-k" 'kill-region)
        ("\C-c\C-y" 'clipboard-yank); clipboard paste
        ("\C-ccx" 'clipboard-kill-region); clipboard paste
        ((kbd "C-M-S-j")
@@ -121,6 +132,9 @@
      (([apps]'execute-extended-command))
      ))
 
-;; Code ends.
+;;; OSX
+(if osx-p
+    (global-set-key (kbd "M-3") '(lambda()(interactive)(insert-pound))))
 
+;; Code ends.
 (provide 'ekeys)
