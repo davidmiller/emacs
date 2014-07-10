@@ -44,53 +44,55 @@ creating an `el-get-sources' variable"
   ((:user davidmiller
           emodes pony-mode lintnode come-fly thrift-mode dizzee fabmacs
           )
+
+   ;; TODO: Figure out what each of these are and if we still need them .
    ;;
    ;; Now we move on to 3rd party packlages from Github
    ;;
-   (:user ananthakumaran
-          monky)
-   (:user auto-complete
-          auto-complete)
-   (:user capitaomorte
-          yasnippet)
-   (:user eschulte
-          rhtml
-          rinari)
-   (:user elixir-lang
-          emacs-elixir)
-   (:user immerrr
-          lua-mode)
-   (:user magit
-          magit)
-   (:user magnars
-          multiple-cursors.el)
-   (:user michaelklishin
-          cucumber.el)
-   (:user nex3
-          haml-mode)
-   (:user nonsequitur
-          inf-ruby)
-   (:user nschum
-          full-ack)
-   (:user pdee
-          pdee)
-   (:user pft
-          mingus)
-   (:user paradoxxxzero
-          jinja2-mode)
-   (:user puppetlabs
-          puppet-syntax-emacs)
-   (:user senny
-          rvm.el)
-   (:user technomancy
-          clojure-mode
-          ;; Get slime from this github mirror until Clojure
-          ;; sort out numerous infrastructure issues
-          slime)
-   (:user tkf
-          emacs-jedi)
-   (:user yoshiki
-          yaml-mode)
+   ;; (:user ananthakumaran
+   ;;        monky)
+   ;; (:user auto-complete
+   ;;        auto-complete)
+   ;; (:user capitaomorte
+   ;;        yasnippet)
+   ;; (:user eschulte
+   ;;        rhtml
+   ;;        rinari)
+   ;; (:user elixir-lang
+   ;;        emacs-elixir)
+   ;; (:user immerrr
+   ;;        lua-mode)
+   ;; (:user magit
+   ;;        magit)
+   ;; (:user magnars
+   ;;        multiple-cursors.el)
+   ;; (:user michaelklishin
+   ;;        cucumber.el)
+   ;; (:user nex3
+   ;;        haml-mode)
+   ;; (:user nonsequitur
+   ;;        inf-ruby)
+   ;; (:user nschum
+   ;;        full-ack)
+   ;; (:user pdee
+   ;;        pdee)
+   ;; (:user pft
+   ;;        mingus)
+   ;; (:user paradoxxxzero
+   ;;        jinja2-mode)
+   ;; (:user puppetlabs
+   ;;        puppet-syntax-emacs)
+   ;; (:user senny
+   ;;        rvm.el)
+   ;; (:user technomancy
+   ;;        clojure-mode
+   ;;        ;; Get slime from this github mirror until Clojure
+   ;;        ;; sort out numerous infrastructure issues
+   ;;        slime)
+   ;; (:user tkf
+   ;;        emacs-jedi)
+   ;; (:user yoshiki
+   ;;        yaml-mode)
    )
    ;;
    ;; Having dealt with source-specific packages,
@@ -100,22 +102,28 @@ creating an `el-get-sources' variable"
   (:name color-theme
          :type bzr
          :url "bzr://bzr.savannah.nongnu.org/color-theme/trunk")
-  (:name csharp-mode
-         :type svn
-         :url "http://csharpmode.googlecode.com/svn/trunk/")
+
+  ;; (:name csharp-mode
+  ;;        :type svn
+  ;;        :url "http://csharpmode.googlecode.com/svn/trunk/")
+
   (:name diminish
          :type http
          :url "http://www.eskimo.com/~seldon/diminish.el")
-  (:name ess
-         :type svn
-         :url "https://svn.r-project.org/ESS/trunk")
-  (:name pastebin
-         :type emacswiki)
-  (:name mthesaur
-         :type emacswiki)
-  (:name python-mode
-         :type bzr
-         :url "lp:python-mode")
+
+  ;;
+  ;; TODO: Figure out if we still need these and what they're for.
+  ;;
+  ;; (:name ess
+  ;;        :type svn
+  ;;        :url "https://svn.r-project.org/ESS/trunk")
+  ;; (:name pastebin
+  ;;        :type emacswiki)
+  ;; (:name mthesaur
+  ;;        :type emacswiki)
+  ;; (:name python-mode
+  ;;        :type bzr
+  ;;        :url "lp:python-mode")
 
   ;; (:name rinari
   ;;        :type elpa)
