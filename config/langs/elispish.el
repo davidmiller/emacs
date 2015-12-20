@@ -7,7 +7,10 @@
 (setq inferior-lisp-program "/usr/bin/sbcl")
 (require-many 'etags
               'paredit
-              'slime)
+;; TODO: Enable slime              
+;;              'slime
+              )
+              
 (ignore-errors
   (slime-setup '(slime-fancy)))
 

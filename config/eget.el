@@ -53,27 +53,30 @@ creating an `el-get-sources' variable"
    ;;        monky)
    ;; (:user auto-complete
    ;;        auto-complete)
-   ;; (:user capitaomorte
-   ;;        yasnippet)
+   (:user capitaomorte
+          yasnippet)
    ;; (:user eschulte
    ;;        rhtml
    ;;        rinari)
-   ;; (:user elixir-lang
-   ;;        emacs-elixir)
+   (:user ecukes
+          ecukes)
+   (:user elixir-lang
+          emacs-elixir)
    ;; (:user immerrr
    ;;        lua-mode)
-   ;; (:user magit
-   ;;        magit)
-   ;; (:user magnars
-   ;;        multiple-cursors.el)
-   ;; (:user michaelklishin
-   ;;        cucumber.el)
+   (:user magit
+          git-modes
+          magit)
+   (:user magnars
+          multiple-cursors.el)
+   (:user michaelklishin
+          cucumber.el)
    ;; (:user nex3
    ;;        haml-mode)
    ;; (:user nonsequitur
    ;;        inf-ruby)
-   ;; (:user nschum
-   ;;        full-ack)
+   (:user nschum
+          full-ack)
    ;; (:user pdee
    ;;        pdee)
    ;; (:user pft
@@ -91,8 +94,8 @@ creating an `el-get-sources' variable"
    ;;        slime)
    ;; (:user tkf
    ;;        emacs-jedi)
-   ;; (:user yoshiki
-   ;;        yaml-mode)
+   (:user yoshiki
+          yaml-mode)
    )
    ;;
    ;; Having dealt with source-specific packages,

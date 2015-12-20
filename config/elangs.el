@@ -15,7 +15,8 @@
 (require-many 'flymake
               'flymake-cursor ; Warnings in minibuffer when point on Error
               'rainbow-mode ; Background hex colour declarations with their values
-              'emodes
+;; TODO: enable emodes              
+;;              'emodes
               'test-case-mode)
 
 ;; Individual language requires
@@ -44,12 +45,15 @@
 ;;;
 ;;; Elixir
 ;;;
-(require 'elixir-mode)
-(defun ex-hook ()
-  "Initializations for Elixir"
-  (autopair-mode))
 
-(add-hook 'elixir-mode-hook 'ex-hook)
+;; TODO: enable elixir-mode
+
+;; (require 'elixir-mode)
+;; (defun ex-hook ()
+;;   "Initializations for Elixir"
+;;   (autopair-mode))
+
+;; (add-hook 'elixir-mode-hook 'ex-hook)
 
 ;;
 ;; c++
@@ -83,69 +87,79 @@
 (add-hook 'perl-mode-hook '(lambda ()
                              (set-mode-style ide-style)))
 
+;; TODO: enable thrift mode
 ;;; Thrift
-(require 'thrift-mode)
-(defext "\\.thrift\\'" thrift-mode)
-(add-hook 'thrift-mode-hook '(lambda ()
-                               (set-mode-style ide-style)))
+;; (require 'thrift-mode)
+;; (defext "\\.thrift\\'" thrift-mode)
+;; (add-hook 'thrift-mode-hook '(lambda ()
+;;                                (set-mode-style ide-style)))
+
+
+;; TODO: enable Java
 
 ;;
 ;; Java
 ;;
 ;; Jde
-(require 'jde)
-(setq defer-loading-jde t)
+;; (require 'jde)
+;; (setq defer-loading-jde t)
 
-(if defer-loading-jde
-    (progn
-      (autoload 'jde-mode "jde" "JDE mode." t)
-      (defext "\\.java\\'" jde-mode))
-  (require 'jde))
+;; (if defer-loading-jde
+;;     (progn
+;;       (autoload 'jde-mode "jde" "JDE mode." t)
+;;       (defext "\\.java\\'" jde-mode))
+;;   (require 'jde))
 
-;; Sets the basic indentation for Java source files
-;; to two spaces.
-(defun my-jde-mode-hook ()
-  (setq c-basic-offset 2))
+;; ;; Sets the basic indentation for Java source files
+;; ;; to two spaces.
+;; (defun my-jde-mode-hook ()
+;;   (setq c-basic-offset 2))
 
-(add-hook 'jde-mode-hook 'my-jde-mode-hook)
+;; (add-hook 'jde-mode-hook 'my-jde-mode-hook)
 
 ;;
 ;; Clojure
 ;;
+;; TODO: Find out why this vvv is here :S
 (add-load-dir "~/emacs/elpa/")
 
-(require 'clojure-mode)
-(font-lock-add-keywords 'clojure-mode
-  '(("true" . font-lock-builtin-face)))
-(defext "\\.cljs\\'" clojure-mode)
+;; TODO: enable clojure mode
 
+;; (require 'clojure-mode)
+;; (font-lock-add-keywords 'clojure-mode
+;;   '(("true" . font-lock-builtin-face)))
+;; (defext "\\.cljs\\'" clojure-mode)
+
+
+;; TODO: enable csharp mode
 ;;
 ;; C#
 ;;
-(require 'csharp-mode)
+;; (require 'csharp-mode)
 
-(defun drm-csharp-hook ()
-  (autopair-mode)
-  (hs-minor-mode))
+;; (defun drm-csharp-hook ()
+;;   (autopair-mode)
+;;   (hs-minor-mode))
 
-(add-hook 'csharp-mode 'drm-csharp-hook)
+;; (add-hook 'csharp-mode 'drm-csharp-hook)
 
 
+;; TODO: enable R mode
 ;;
 ;; R
 ;;
-(load (sitedir "ess/lisp/ess-site.el"))
+;; (load (sitedir "ess/lisp/ess-site.el"))
 
+;; TODO: enable Haml
 ;;;
 ;;; Haml
 ;;;
-(require 'haml-mode)
-(defext "\\.haml\\'" haml-mode)
+;; (require 'haml-mode)
+;; (defext "\\.haml\\'" haml-mode)
 
-;;;
-;;; Yaml
-;;;
-
+;;
+;; Yaml
+;;
 (require 'yaml-mode)
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 

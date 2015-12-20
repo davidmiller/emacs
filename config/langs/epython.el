@@ -12,7 +12,8 @@
 
 (add-to-list 'load-path (sitedir "pony-mode/src"))
 
-(require 'jinja2-mode)
+;; TODO: enable jinja2-mode
+;;(require 'jinja2-mode)
 (require 'pony-mode)
 
 (defext "\\.jinja2\\'" jinja2-mode)
@@ -22,7 +23,7 @@
 
 (add-hook 'python-mode-hook
           '(lambda ()
-             (highlight-indentation nil)
+;             (highlight-indentation nil)
              (set-mode-style ide-style)))
 
 

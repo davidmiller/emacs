@@ -18,8 +18,11 @@
 
 ;; (require 'rails-autoload)y
 
-(require 'come-fly)
-(require 'rinari)
-(require 'rhtml-mode)
+;; TODO: enable come-fly
+;;(require 'come-fly)
+
+;; TODO: Enable ruby editing modes 
+;;(require 'rinari)
+;;(require 'rhtml-mode)
 
 (provide 'eruby)

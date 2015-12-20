@@ -83,14 +83,9 @@
 (require 'autopair)
 
 
-;; TODO: enable yasnippet
-
-;(when (featurep 'yasnippet) (unload-feature 'yasnippet t))
-;(require 'yasnippet (sitedir "pdee/extensions/yasnippet/yasnippet"))
-;(require 'yasnippet)
-;(setq yas/snippet-dirs (emacsdir "snippets"))
-;(yas/initialize)
-;(yas/load-directory (sitedir "yasnippet/snippets/text-mode"))
+(require 'yasnippet)
+(setq yas/snippet-dirs (emacsdir "snippets"))
+(yas/initialize)
 
 ;; TODO: enable auto-complete
 
@@ -197,11 +192,11 @@
 
 ;; TODO: enable magit and monky
 ;; Version Control
-;; (require-many
-;;  'magit  ;; Git interface
-;;  'monky) ;; Mercurial interface
-
-
+(require-many
+ 'magit  ;; Git interface
+;;  'monky ;; Mercurial interface
+ )
+(require 'magit)
 ;; Programming - IDE stuff
 
 (require 'smart-operator)
@@ -249,8 +244,9 @@
 
 ;; BDD
 ;; TODO: Enable feature mode
-;; (require 'feature-mode)
-;; (defext "\\.feature\\'" feature-mode)
+(require 'feature-mode)
+(defext "\\.feature\\'" feature-mode)
+(defext "\\.behaviour\\'" feature-mode)
 
 ;; Session Management
 (desktop-save-mode t)
@@ -280,7 +276,7 @@
 (autoload 'ack "full-ack" nil t)
 (autoload 'ack-find-same-file "full-ack" nil t)
 (autoload 'ack-find-file "full-ack" nil t)
-(setq ack-executable (executable-find "ack-grep"))
+(setq ack-executable "/usr/local/bin/ack")
 
 ;; TODO: Enable loading of packages - c.f. lower in this file and el-get
 ;; (when
@@ -308,6 +304,8 @@
 (autoload 'mingus "mingus-stays-home" nil t)
 ;;;
 
+(require 'elixir-mode)
+(require 'markdown-mode)
 
 ;;
 ;; Setup puppet-mode for autoloading
@@ -317,8 +315,7 @@
 (add-to-list 'auto-mode-alist '("\\.pp$" . puppet-mode))
 
 ;; TODO: Enable multiple cursors
-;;; multiple cursors
-;; (require 'multiple-cursors)
+(require 'multiple-cursors)
 
 ;; TODO: enable loading of packages
 ;; 
@@ -327,6 +324,8 @@
 ;;     '("marmalade" .
 ;;       "http://marmalade-repo.org/packages/"))
 ;;  (package-initialize)
+
+
 
 ;; ;; code ends
 (provide 'econf)
