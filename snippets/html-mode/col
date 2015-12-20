@@ -1,0 +1,5 @@
+#name : col
+# --
+<div class="col-md-${1:6}">
+  $0
+</div> 

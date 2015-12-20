@@ -1,0 +1,10 @@
+# -*- coding: utf-8; mode: snippet -*-
+# name: btn
+# key: btn
+# group: Bootstrap
+# contributor: David Miller <david@deadpansincerity.com>
+# --
+<button class="btn btn-${1:primary}">
+  <i class="fa fa-${2:icon}"></i>
+  $0
+</button>

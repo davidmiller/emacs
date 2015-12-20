@@ -1,0 +1,7 @@
+# -*- coding: utf-8; mode: snippet -*-
+# name : <p class="">...</p>
+# key: p
+# --
+<p class="$1">
+   $2
+</p>
