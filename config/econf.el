@@ -1,49 +1,184 @@
-;
-;; econf.el - Emacs Configuration
 ;;
-;; Commentary:
 ;;
-;; This file is the root configuration package for My Emacs setup.
-;; After establishing a few generic libraries that should be available
-;; to all configuration modules, it proceeds to require each individual
-;; configuration.
+;; This file represents the entrypoint for our emacs configuration.
 ;;
-;; The process of factoring this out into logical packages is ongoing.
+;; Sections in this file:
+;;
+;; 1. Initialization
+;; 2. El Get (Package Management)
+;; 3. Utility Functions
+;; 4. Display
+;; 5. Interaction with files/buffers
+;; 6. Interacting with Version Control;;
+;; 7. Interacting with Org Mode
+;; 8. Smart Snippeting
+;; 10. Custom keybindings
+;; 11. Custom language bindings
+;; 11.1 Python
+;;
 ;;
 
-;; Code begins
 
 ;;
-;; Module level dependencies
+;; 1. Initialization
 ;;
-(require-many
- 'compile
- 'delsel)
+(defun emacs-reloaded ()
+  "Wander about-type stuff for initialization. Neat. Not useful at all.
+For anything. Seriously."
+  (switch-to-buffer "*scratch*")
+  (animate-string (concat ";; Initialization successful, welcome to "
+                          (substring (emacs-version) 0 16)
+                          ". \n;; Loaded with .emacs enabled\n\n;; This is your newer fresher emacs config.")
+                  0 0)
+  (newline-and-indent)  (newline-and-indent))
+
+(setq inhibit-startup-message t) ;; No more welcome for me
+(defconst animate-n-steps 10)
+(add-hook 'after-init-hook 'emacs-reloaded)
+
 
 ;;
-;; Sub-configuration packages
+;; 2. El Get (Package Management)
 ;;
-(require-many
- 'ecomms            ;; Communications with the outside world - IM/IRC/Twitter/Email
- 'edisplay          ;; Visual display of the window
- 'edocs             ;; Access to documentation files/resources from within Emacs
- 'emath             ;; Math utilities
- 'enterwebs         ;; Interacting with a World Wide Web
- 'efourth-dimension ;; Date/Time utilities
- 'evc               ;;
- )
 
-;; Dizzee package - Managing projects and supbrocesses
-;; TODO: Enable dizzee on OSX
-;;(require 'dizzee)
-;(require 'onzo)
+(unless (require 'el-get nil 'noerror)
+  (with-current-buffer
+      (url-retrieve-synchronously
+       "https://raw.githubusercontent.com/dimitri/el-get/master/el-get-install.el")
+    (goto-char (point-max))
+    (eval-print-last-sexp)))
 
-;; TODO: Enable fab on OSX
-;; (require 'fab)
+(el-get 'sync)
 
+;;
+;; 3. Utility Functions
+;;
+(defun insert-pound ()
+  "Inserts a pound into the buffer"
+  (insert "#"))
+
+(defun lorem ()
+  "Insert a lorem ipsum."
+  (interactive)
+  (insert "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do "
+          "eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad "
+          "minim veniam, quis nostrud exercitation ullamco laboris nisi ut "
+          "aliquip ex ea commodo consequat. Duis aute irure dolor in "
+          "reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla "
+          "pariatur. Excepteur sint occaecat cupidatat non proident, sunt in "
+          "culpa qui officia deserunt mollit anim id est laborum."))
+
+;;
+;; Dotfile tweaking
+;;
+(defmacro dotfile (filename &optional path)
+  "Define the function `filename' to edit the dotfile in question"
+  (let ((filestr (symbol-name filename)))
+    `(progn
+       (defun ,(intern filestr) ()
+         ,(format "Open %s for editing" filestr)
+         (interactive)
+         (find-file ,(if path path (concat ~ filestr))))))) ;; ~ set in .emacs
+
+(dotfile .emacs)
+(dotfile .bashrc)
+(dotfile .ssh "~/.ssh/config")
+(dotfile .screenrc)
+(dotfile econf "~/emacs/config/econf.el")
+
+(defun rename-current-file-or-buffer ()
+  (interactive)
+  (if (not (buffer-file-name))
+      (call-interactively 'rename-buffer)
+    (let ((file (buffer-file-name)))
+      (with-temp-buffer
+        (set-buffer (dired-noselect file))
+        (dired-do-rename)
+        (kill-buffer nil))))
+  nil)
+
+
+;;
+;; 4. Display
+;;
+(defun toggle-fullscreen (&optional f)
+  "Make the current frame fullscreen"
+  (interactive)
+  (let ((current-value (frame-parameter nil 'fullscreen)))
+       (set-frame-parameter nil 'fullscreen
+                            (if (equal 'fullboth current-value)
+                                (if (boundp 'old-fullscreen) old-fullscreen nil)
+                                (progn (setq old-fullscreen current-value)
+                                       'fullboth)))))
+
+(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1)) ;; Don't show a scroll bar
+(if (fboundp 'tool-bar-mode) (tool-bar-mode -1)) ;; Remove icons from gtk menu
+(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))  ;; Keep the menu.
+(column-number-mode 1);; Enable Colum numbering
+(display-time) ;; show it in the modeline
+(setq frame-title-format '(buffer-file-name "%f" ("%b"))) ; Window should have full file path
+(setq-default cursor-type 'bar)  ; Emacs default is a box
+
+
+(require 'color-theme)
+(defun color-theme-bluebulator ()
+  (interactive)
+  (color-theme-install
+   '(color-theme-bluebulator
+      ((background-color . "#0f0f0f")
+      (background-mode . light)
+      (border-color . "#191919")
+      (cursor-color . "#43667f")
+      (foreground-color . "#c9c9c5")
+      (mouse-color . "black"))
+      (fringe ((t (:background "#191919"))))
+      (mode-line ((t (:foreground "#a3a3a3" :background "#163e60"))))
+      (region ((t (:background "#29383d"))))
+      (font-lock-builtin-face ((t (:foreground "#ccaa61"))))
+      (font-lock-constant-face ((t (:foreground "#ddcc61"))))
+      (font-lock-comment-face ((t (:foreground "brown"))))
+      (font-lock-function-name-face ((t (:foreground "#197db8"))))
+      (font-lock-keyword-face ((t (:foreground "#508195"))))
+      (font-lock-string-face ((t (:foreground "#6ea07f"))))
+      (font-lock-type-face ((t (:foreground"#539355"))))
+      (rst-level-2-face ((t (:foreground "black" :background "grey78"))))
+      (rst-level-3-face ((t (:foreground "black" :background "grey71"))))
+      (flymake-errline ((t (:background"firebrick" :foreground "white"))))
+      (font-lock-variable-name-face ((t (:foreground "#7f989f"))))
+      (minibuffer-prompt ((t (:foreground "#a2c4d8" :bold t))))
+      (font-lock-warning-face ((t (:foreground "Red" :bold t))))
+      (hl-line ((t (:background "#333333"))))
+     ;;  (whitespace-space ((t (:background "#0f0f0f" :foreground "#454545"))))
+     ;;  (whitespace-trailing ((t (:background "#a52a2a"))))
+     ;;  (whitespace-line ((t (:background "gray10"))))
+     ;;  (whitespace-newline ((t (:foreground "#454545"))))
+     ;;  (whitespace-indentation ((t (:background "#121212"))))
+     ;;  (whitespace-space-after-tab ((t (:background "#0f0"))))
+     ;;  (whitespace-tab ((t (:background "#0f0f0f"))))
+     ;; (whitespace-empty ((t (:background "#0f0f0f"))))
+     (which-func ((t (:foreground "#a2c4d8"))))
+     )))
+(provide 'color-theme-bluebulator)
+(color-theme-bluebulator)
+
+(show-paren-mode 1) ;; Highlight parenthesis pairs
+(delete-selection-mode t) ;; Delete contents of region when we start typing
+
+;;
+;; 5. Interaction with files/buffers
+;;
 (setq ring-bell-function 'ignore);; disable bell function
-(defalias 'yes-or-no-p 'y-or-n-p) ;; less typing for me
 
+(ido-mode t) ; Better find file/buffer
+(setq ido-enable-flex-matching t) ;; enable fuzzy matching
+
+(require 'dired-x) ; For ommitting files
+(setq-default dired-omit-files-p t) ; this is the buffer-local variable
+(setq dired-omit-files
+      ;; kill magic . .. as well as .pyc and emacs *~ files
+    (concat dired-omit-files "\\|^\\..+$\\|\\.pyc$\\|\\*~$"))
+
+(defalias 'yes-or-no-p 'y-or-n-p) ;; less typing for me
 (setq-default indent-tabs-mode nil) ;; Spaces instead of tabs
 ;; Brief aside via Georg Brandl
 ;;
@@ -57,275 +192,80 @@
 ;; Tabs are right out.
 (setq tab-width 4)
 
-(show-paren-mode 1) ;; Highlight parenthesis pairs
-(setq transient-mark-mode t) ;; Highlight region whenever the mark is active
-(delete-selection-mode t) ;; Delete contents of region when we start typing
-(setq indicate-empty-lines t)
+;; We basically never want trailing whitespace in files.
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;  Files   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(electric-pair-mode) ;; >=Emacs 24 replaces autopair. Parens, Quotes etc are double no
 
-;; Put backup files (ie foo~) in one place. (The backup-directory-alist
-;; list contains regexp=>directory mappings; filenames matching a regexp are
-;; backed up in the corresponding directory. Emacs will mkdir it if necessary.)
-(defvar backup-dir (concat "/home/david/tmp/emacs_backups/"))
-(setq backup-directory-alist (list (cons "." backup-dir)))
-(setq temporary-file-directory "/tmp/")
-;; Let buffer names be unique in a nicer way
-(require 'uniquify)
-(setq uniquify-buffer-name-style 'post-forward-angle-brackets)
+(desktop-save-mode t) ; Save the currently open files between sessions
+(require 'full-ack)
+(setq ack-executable "/usr/local/bin/ack") ; We're not where Ack expects Ack to be
 
-(setq wdired-allow-to-change-permissions t) ;; Allow perm changing in Dired
-
-
-
-;; Editing
-(load-library "light-symbol")
-(require 'autopair)
-
-
-(require 'yasnippet)
-(setq yas/snippet-dirs (emacsdir "snippets"))
-(yas/initialize)
-
-;; TODO: enable auto-complete
-
-;;(add-load-dir (sitedir "auto-complete/lib"))
-;; (require 'auto-complete-config)
-;; (add-hook 'before-save-hook 'delete-trailing-whitespace)
-
-
-;; (add-to-list 'ac-dictionary-directories (sitedir "auto-complete/dict"))
-
-;; (ac-config-default)
-;; (add-to-list 'ac-modes 'erlang-mode)
-;; (add-to-list 'ac-modes 'erlang-shell-mode)
-;; (add-to-list 'ac-modes 'thrift-mode)
-;; (add-to-list 'ac-modes 'csharp-mode)
-;; (add-to-list 'ac-modes 'elixir-mode)
-
-
-;; (setq-default ac-sources '(ac-source-words-in-same-mode-buffers
-;;                            ac-source-yasnippet
-;;                            ac-source-filename
-;;                            ac-source-abbrev
-;;                            ac-source-files-in-current-dir))
-
-
-;; (add-hook 'emacs-lisp-mode-hook
-;;           (lambda () (add-to-list 'ac-sources 'ac-source-symbols)))
-
-;; (add-hook 'auto-complete-mode-hook
-;;           (lambda ()
-;;             ()))
-;; ;; (add-hook 'python-mode-hook
-;; ;;           (lambda () (add-to-list 'ac-sources 'ac-source-ropemacs)))
-;; (global-auto-complete-mode t)
-;; ;;                                         ;(ac-css-keywords-initialize)
-;; ;;                                         ;(ac-set-trigger-key "C-c C-/")
-;; ;;                                         ;(setq ac-auto-start nil)
-;; (setq ac-auto-start 2)
-;; (setq ac-ignore-case nil)
-;; (setq ac-quick-help-delay 1)
-;; (ac-set-trigger-key "TAB")
-
-
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;  buffer Management ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(setq split-window-preferred-function 'split-window-sensibly)
-(winner-mode 1)
-;(setq split-width-threshold 50)
-
-(setq ibuffer-saved-filter-groups
-      (quote (("default"
-               ("Org" ;; all org-related buffers
-                (mode . org-mode))
-               ("Profile"    ;; personal config files
-                (filename . ".emacs\$"))
-               ("Onzo" ;; Work related sectioning
-                (or (filename . "onzo") ;; Local Machine
-                    (filename . "scp:devs@devmac"))) ;; TRAMPing to the dev Mac
-               ("Gnus"
-                (name . "*Group*"))
-               ("Programming" ;; prog stuff not already in MyProjectX
-                (or
-                 (mode . python-mode)
-                 (mode . perl-mode)
-                 (mode . ruby-mode)
-                 (mode . php-mode)
-                 (mode . emacs-lisp-mode)
-                 (filename . ".tpl\$")
-                 ))
-               ("Mail"
-                 (or  ;; mail-related buffers
-                  (mode . message-mode)
-                  (mode . mail-mode)
-                  ;; etc.; all your mail related modes
-                  ))
-               ("Jabber"
-                (or
-                 (mode . jabber-chat-mode)
-                 (mode . jabber-roster-mode)
-                 ))
-               ("Snippets"
-                (filename . "yasnippet/snippets"))
-               ("ERC"   (mode . erc-mode))))))
-
-(add-hook 'ibuffer-mode-hook
-          (lambda ()
-            (ibuffer-switch-to-saved-filter-groups "default")))
-
-
-(require 'ido)
-(ido-mode t)
-(setq ido-enable-flex-matching t) ;; enable fuzzy matching
-
-
-;; So I'll be lowercasin'
-(put 'downcase-region 'disabled nil)
-(put 'upcase-region 'disabled nil)
-
-;; Shell
-(autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
-(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
-
-;; TODO: enable magit and monky
-;; Version Control
-(require-many
- 'magit  ;; Git interface
-;;  'monky ;; Mercurial interface
- )
+;;
+;; 6. Interacting with Version Control
+;;
 (require 'magit)
-;; Programming - IDE stuff
 
-(require 'smart-operator)
-(setq smart-operator-double-space-docs nil)
-
-;; Use CEDET projects
-(condition-case nil
-    (load-file (sitedir "cedet/common/cedet.el"))
-  (error nil))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ORG mode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
-(global-set-key "\C-cl" 'org-store-link)
-(global-set-key "\C-ca" 'org-agenda)
-(add-hook 'org-mode-hook '(lambda ()
-                            (set-mode-style textual-style)
-                            (local-set-key [C-down] 'org-priority-down)
-                            (local-set-key [C-up] 'org-priority-up)))
-
-;; Testing out remember-mode
-
-;; TODO: Remember what this does. 
-;;(org-remember-insinuate)
-(setq org-directory "~/src/onzo/scratch/")
-(setq org-default-notes-file "~/src/onzo/scratch/notes.org")
-(setq remember-annotation-functions '(org-remember-annotation))
-(setq remember-handler-functions '(org-remember-handler))
-(add-hook 'remember-mode-hook 'org-remember-apply-template)
-(define-key global-map "\C-cr" 'org-remember)
-
-(setq org-remember-templates
-      '(("Todo" ?t "* TODO %^{Brief Description} %^g\n%?\nAdded: %U"
-         "~/notes/organized.org" "Tasks")))
-
+;;
+;; 7. Interacting with Org Mode
+;;
 (setq org-todo-keywords
       '((sequence "TODO" "IN PROGRESS" "|" "DONE" "WONT")))
 
-;; Unittests
-(require 'fringe-helper)
-(autoload 'test-case-mode "test-case-mode" nil t)
-(autoload 'enable-test-case-mode-if-test "test-case-mode")
-(autoload 'test-case-find-all-tests "test-case-mode" nil t)
-(autoload 'test-case-compilation-finish-run-all "test-case-mode")
-(add-hook 'find-file-hook 'enable-test-case-mode-if-test)
+;;
+;; 10. Custom keybindings
+;;
 
-;; BDD
-;; TODO: Enable feature mode
-(require 'feature-mode)
-(defext "\\.feature\\'" feature-mode)
-(defext "\\.behaviour\\'" feature-mode)
+(defmacro gset-key (pairs)
+  "Globally set `pairs' as (binding symbol)"
+  (let ((bindings (mapcar (lambda (b) (cons 'global-set-key b)) pairs)))
+  `(progn ,@bindings)
+  ))
 
-;; Session Management
-(desktop-save-mode t)
+(gset-key (
+       ("\C-x\C-b" 'ibuffer) ; Ibuffer is part of emacs & nicer than the default
 
-;; Function names in the header line
-(require 'which-func)
-(which-func-mode 1)
- (eval-after-load "which-func"
-      '(progn
-         (add-to-list 'which-func-modes 'c++-mode)
-         (add-to-list 'which-func-modes 'js-mode)
-         (add-to-list 'which-func-modes 'lisp-mode)
-         (add-to-list 'which-func-modes 'emacs-lisp-mode)
-         (add-to-list 'which-func-modes 'python-mode)))
-(delete (assoc 'which-func-mode mode-line-format) mode-line-format)
-(setq which-func-header-line-format
-              '(which-func-mode
-                ("" which-func-format
-                 )))
-(defadvice which-func-ff-hook (after header-line activate)
-  (when which-func-mode
-    (delete (assoc 'which-func-mode mode-line-format) mode-line-format)
-    (setq header-line-format which-func-header-line-format)))
-(add-hook 'find-file-hooks 'which-func-ff-hook)
+       ;; Linux has alt + direction, OSx has ESC + direction
+       ([M-left] 'windmove-left) ; move to left windnow
+       ([M-right] 'windmove-right) ; move to right window
+       ([M-up] 'windmove-up) ; move to upper window
+       ([M-down] 'windmove-down) ; move to downer window
 
-(autoload 'ack-same "full-ack" nil t)
-(autoload 'ack "full-ack" nil t)
-(autoload 'ack-find-same-file "full-ack" nil t)
-(autoload 'ack-find-file "full-ack" nil t)
-(setq ack-executable "/usr/local/bin/ack")
+       ((kbd "ESC <left>") 'windmove-left) ; move to left windnow
+       ((kbd "ESC <right>") 'windmove-right) ; move to right window
+       ((kbd "ESC <up>") 'windmove-up) ; move to upper window
+       ((kbd "<ESC> <down>") 'windmove-down) ; move to downer window
+       ))
 
-;; TODO: Enable loading of packages - c.f. lower in this file and el-get
-;; (when
-;;     (load
-;;      (expand-file-name (emacsdir "elpa/package.el")))
-;;   (setq package-user-dir (expand-file-name (emacsdir "/elpa")))
-;;   (add-to-list 'package-archives
-;;                '("marmalade" . "http://marmalade-repo.org/packages/"))
-;;   (package-initialize))
-;; (setq package-user-dir (expand-file-name (emacsdir "elpa")))
-
-
-;; Edit DNS records with sane highlighting and auto-increment serial
-(add-hook 'find-file-hook
-          (lambda nil
-            (if (string-match "/etc/bind" (buffer-file-name))
-                (dns-mode))))
-
-
-;;; Programming helpers:
-(setq compile-command "rake ")
-
-
-;;; Music via MPD
-(autoload 'mingus "mingus-stays-home" nil t)
-;;;
-
-(require 'elixir-mode)
-(require 'markdown-mode)
+(if osx-p
+    (global-set-key (kbd "M-3") '(lambda()(interactive)(insert-pound))))
 
 ;;
-;; Setup puppet-mode for autoloading
+;; 8. Smart Snippeting
 ;;
-(autoload 'puppet-mode "puppet-mode" "Major mode for editing puppet manifests")
+(require 'yasnippet)
+(yas-global-mode 1)
+(add-to-list 'yas-snippet-dirs "~/emacs/newsnippets")
 
-(add-to-list 'auto-mode-alist '("\\.pp$" . puppet-mode))
+;;
+;; 11. Custom language bindings
+;;
 
-;; TODO: Enable multiple cursors
-(require 'multiple-cursors)
+;;
+;; 11.1 Python
+;;
 
-;; TODO: enable loading of packages
-;; 
-;; (require 'package)
-;; (add-to-list 'package-archives
-;;     '("marmalade" .
-;;       "http://marmalade-repo.org/packages/"))
-;;  (package-initialize)
+;; We need to tell python-environment & Jedi where to find virtualenv
+(setq-default python-environment-virtualenv
+              '("/usr/local/bin/virtualenv" "--system-site-packages" "--quiet"))
+
+(add-hook 'python-mode-hook 'jedi:setup)
+(setq jedi:complete-on-dot t)  ; optional
+(setq jedi:setup-keys t)
+
+(add-load-dir "~/emacs/site-packages/pony-mode/src")
+(require 'pony-mode) ; For Interacting with Django.
 
 
-
-;; ;; code ends
+;; code ends
 (provide 'econf)

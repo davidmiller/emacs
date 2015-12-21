@@ -1,9 +1,0 @@
-#contributor : David Miller <david@deadpansincerity.com>
-#name : <xs:restriction>
-# key : rest
-# --
-<xs:simpleType>
-    <xs:restriction base="xs:$1">
-        $0
-    </xs:restriction>
-</xs:simpleType>

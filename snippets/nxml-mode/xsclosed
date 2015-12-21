@@ -1,6 +1,0 @@
-#contributor : David Miller <david@deadpansincerity.com>
-#name : <xs:$foo value \>
-# key : xsv
-# --
-<xs:$1 value="$2" />
-$0
