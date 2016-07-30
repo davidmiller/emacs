@@ -1,0 +1,8 @@
+# -*- mode: js-mode -*-
+# name: $injector.get
+# key: iget
+# condition: (looking-back "^\s*iget")
+# expand-env: ((yas-indent-line 'fixed))
+# --
+${1:injected} = $injector.get('$1');
+$0

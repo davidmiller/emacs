@@ -1,0 +1,8 @@
+# -*- mode: js-mode -*-
+# name: expect().toHaveBeenCalled()
+# key: exc
+# condition: (looking-back "^\s*exc")
+# expand-env: ((yas-indent-line 'fixed))
+# --
+expect($1).$2toHaveBeenCalled();
+$0
