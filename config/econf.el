@@ -12,9 +12,13 @@
 ;; 6. Interacting with Version Control;;
 ;; 7. Interacting with Org Mode
 ;; 8. Smart Snippeting
+;;
+;;
 ;; 10. Custom keybindings
 ;; 11. Custom language bindings
 ;; 11.1 Python
+;; 11.2 BDD
+;; 12. Text edititng
 ;;
 ;;
 
@@ -265,6 +269,14 @@ For anything. Seriously."
 
 (add-load-dir "~/emacs/site-packages/pony-mode/src")
 (require 'pony-mode) ; For Interacting with Django.
+
+;; 11.2 Feature Mode (For BDD)
+(require 'feature-mode)
+
+;;
+;; Text editing
+;;
+(require 'markdown-mode)
 
 
 ;; code ends
