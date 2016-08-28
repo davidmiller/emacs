@@ -250,6 +250,7 @@ For anything. Seriously."
 (require 'yasnippet)
 (yas-global-mode 1)
 (add-to-list 'yas-snippet-dirs "~/emacs/newsnippets")
+(yas-reload-all)
 
 ;;
 ;; 11. Custom language bindings
